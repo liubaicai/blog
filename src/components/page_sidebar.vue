@@ -26,7 +26,7 @@
     },
     methods: {
       getLinks () {
-        return this.$http.get(`http://0.0.0.0:3000/api/links`)
+        return this.$http.get(`http://api.blog.liubaicai.net/links`)
           .then(function (data) {
             if (data.status === 200) {
               return data.body

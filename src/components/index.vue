@@ -58,7 +58,7 @@
     },
     methods: {
       getArticles (page) {
-        return this.$http.get(`http://0.0.0.0:3000/api/articles?page=${page || 1}&per_page=5`)
+        return this.$http.get(`http://api.blog.liubaicai.net/articles?page=${page || 1}&per_page=5`)
           .then(function (data) {
             if (data.status === 200) {
               return data.body

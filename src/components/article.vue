@@ -33,7 +33,7 @@
     },
     methods: {
       getArticle (id) {
-        return this.$http.get(`http://0.0.0.0:3000/api/articles/${id}`)
+        return this.$http.get(`http://api.blog.liubaicai.net/articles/${id}`)
           .then(function (data) {
             if (data.status === 200) {
               return data.body
