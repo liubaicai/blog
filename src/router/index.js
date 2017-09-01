@@ -4,6 +4,7 @@ import VueResource from 'vue-resource'
 import Index from '@/components/index'
 import Article from '@/components/article'
 import Archive from '@/components/archive'
+import NotFound from '@/components/r_404'
 
 Vue.use(Router)
 Vue.use(VueResource)
@@ -35,6 +36,10 @@ export default new Router({
       path: '/archives/:s',
       name: 'Search',
       component: Archive
+    },
+    {
+      path: '*',
+      component: NotFound
     }
   ],
   scrollBehavior (to, from, savedPosition) {
