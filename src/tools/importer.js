@@ -24,3 +24,6 @@ Vue.component('PageFooter', PageFooter)
 Vue.component('PageSidebar', PageSidebar)
 Vue.component('XSearch', XSearch)
 Vue.component('XComment', XComment)
+
+import 'font-awesome/css/font-awesome.css'
+import 'bootstrap/dist/css/bootstrap.css'

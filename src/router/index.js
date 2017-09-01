@@ -4,6 +4,7 @@ import VueResource from 'vue-resource'
 import Index from '@/components/index'
 import Article from '@/components/article'
 import Archive from '@/components/archive'
+import Login from '@/components/login'
 import NotFound from '@/components/r_404'
 
 Vue.use(Router)
@@ -36,6 +37,11 @@ export default new Router({
       path: '/archives/:s',
       name: 'Search',
       component: Archive
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '*',
