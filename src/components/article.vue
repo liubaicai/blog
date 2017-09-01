@@ -7,6 +7,7 @@
           <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} </div>
           <div class="item-content" v-html="article.text">{{article.text}}</div>
         </div>
+        <XComment :gid="article.id"></XComment>
       </div>
       <div class="col-md-1"></div>
       <PageSidebar class="col-md-3" style="padding-top: 30px;"></PageSidebar>

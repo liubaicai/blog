@@ -16,9 +16,11 @@ import PageHeader from '../components/page_header.vue'
 import PageFooter from '../components/page_footer.vue'
 import PageSidebar from '../components/page_sidebar.vue'
 import XSearch from '../components/x_search.vue'
+import XComment from '../components/x_comment.vue'
 
 Vue.component('paginate', Paginate)
 Vue.component('PageHeader', PageHeader)
 Vue.component('PageFooter', PageFooter)
 Vue.component('PageSidebar', PageSidebar)
 Vue.component('XSearch', XSearch)
+Vue.component('XComment', XComment)

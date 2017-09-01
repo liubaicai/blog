@@ -29,8 +29,6 @@
   }
   .blog-post a, .blog-post a:hover {
     font-size:16px;
-    text-decoration:none;
-    color: #CC6666;
   }
   .blog-post h1 {
     font-size:30px;
@@ -50,7 +48,7 @@
     margin-top:0;
   }
   .blog-post .item-info span{
-    color: #CC6666;
+    /*color: #000000;*/
   }
   .blog-post .item-content {
     font-size:16px;
