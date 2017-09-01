@@ -6,9 +6,7 @@
           <div class="col-md-4 logo-div">
             <div class="logo-inner text-center">
               <div class="logo-name">
-                <a href="/">
-                  <img src="/static/image/sitelogo.jpg" class="img-circle" />
-                </a>
+                <router-link :to="{name: 'Index'}"><img src="/static/image/sitelogo.jpg" class="img-circle" /></router-link>
               </div>
             </div>
           </div>

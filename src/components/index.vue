@@ -3,12 +3,14 @@
     <div class="row">
       <div class="col-md-8 ">
         <div id="post-container">
-          <div v-for="article in articles" class="blog-post">
-            <h1>{{article.title}}</h1>
-            <div class="item-info">Posted by <span>{{admin}}</span> on {{getTime(article.created_at)}} </div>
-            <div class="item-content" v-html="article.text">{{article.text}}</div>
-            <router-link :to="{name: 'Article', params: { id: article.id }}">Read More <i class="fa fa-angle-right"></i></router-link>
-          </div>
+          <transition-group name="list" tag="p">
+            <div v-for="article in articles" :key="article.id" class="blog-post">
+              <h1>{{article.title}}</h1>
+              <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} </div>
+              <div class="item-content" v-html="article.text">{{article.text}}</div>
+              <router-link :to="{name: 'Article', params: { id: article.id }}">Read More <i class="fa fa-angle-right"></i></router-link>
+            </div>
+          </transition-group>
         </div>
 
         <paginate
@@ -21,7 +23,7 @@
         </paginate>
       </div>
       <div class="col-md-1"></div>
-      <PageSidebar class="col-md-3"></PageSidebar>
+      <PageSidebar class="col-md-3" style="padding-top: 30px;"></PageSidebar>
     </div>
   </div>
 </template>
@@ -31,14 +33,13 @@
     name: 'index',
     data: function () {
       return {
-        admin: '刘白菜',
         pageNo: 0,
         pageCount: 1,
         articles: []
       }
     },
     created: function () {
-      document.title = '菜园子 -刘白菜的个人博客'
+      document.title = this.$default_title
       var that = this
       this.getArticles(this.$route.params.page || this.getUrlKey('page') || 1).then(function (data) {
         that.articles = data['data']
@@ -49,28 +50,14 @@
     watch: {
       '$route' (to, from) {
         var that = this
-        this.getArticles(to.params.page).then(function (data) {
+        this.getArticles(to.params.page || this.getUrlKey('page') || 1).then(function (data) {
           that.articles = data['data']
-          that.pageNo = to.params.page - 1
+          that.pageNo = (to.params.page || this.getUrlKey('page') || 1) - 1
           that.pageCount = Math.ceil((data['total']) / (data['per_page']))
         })
       }
     },
     methods: {
-      getArticles (page) {
-        return this.$http.get(`http://api.blog.liubaicai.net/articles?page=${page || 1}&per_page=5`)
-          .then(function (data) {
-            if (data.status === 200) {
-              return data.body
-            }
-          })
-      },
-      getTime (strTime) {
-        return new Date(strTime).toDateString()
-      },
-      getUrlKey: function (name) {
-        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || ['', ''])[1].replace(/\+/g, '%20')) || null
-      },
       pageNoClick: function (pageNum) {
         this.$router.push({name: 'Page', params: { page: pageNum }})
       }
@@ -80,5 +67,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .list-enter-active, .list-leave-active {
+    transition: all 0.2s;
+  }
+  .list-enter, .list-leave-to {
+    opacity: 0;
+    /*transform: translateX(-30px);*/
+  }
 </style>

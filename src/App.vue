@@ -18,6 +18,10 @@
     line-height:30px;
     color:#333333;
   }
+  a,a:visited,a:hover,a:active {
+    color: #CC6666;
+    text-decoration: none;
+  }
   .blog-post {
     padding-bottom:20px;
     border-bottom:2px solid #f4f4f4;

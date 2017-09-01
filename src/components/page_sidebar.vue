@@ -1,7 +1,8 @@
 <template>
-  <div style="padding-top: 30px;">
+  <div>
     <div class="row">
-      <ul class="list-group">
+      <XSearch @onSearch="onSearchEvent"></XSearch>
+      <ul class="list-group" style="margin-top: 20px;">
         <li class="list-group-item"><strong>友情链接|LINKS</strong></li>
 
         <li v-for="link in links" @click="navTo(link.url)" class="list-group-item">{{link.title}}</li>
@@ -25,13 +26,8 @@
       })
     },
     methods: {
-      getLinks () {
-        return this.$http.get(`http://api.blog.liubaicai.net/links`)
-          .then(function (data) {
-            if (data.status === 200) {
-              return data.body
-            }
-          })
+      onSearchEvent (data) {
+        this.$router.push({name: 'Search', params: { s: data[0] }})
       },
       navTo (url) {
         window.open(url)

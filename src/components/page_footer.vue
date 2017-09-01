@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 foo-inner">
-          &copy; {{now_year}} {{domain}} | <span v-html="footer">{{footer}}</span>
+          &copy; {{now_year}} {{$domain}} | <span v-html="$footer">{{$footer}}</span>
         </div>
       </div>
     </div>
@@ -15,8 +15,6 @@
     name: 'page-footer',
     data: function () {
       return {
-        domain: 'liubaicai.net',
-        footer: 'Powerby<a href="http://weibo.com/liubaicai" target="_blank">@刘白菜</a>，项目源码托管于<a href="https://github.com/liubaicai/baicai_rails_blog" target="_blank">GitHub</a>'
       }
     },
     computed: {

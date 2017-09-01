@@ -4,12 +4,12 @@
       <div class="col-md-8 ">
         <div class="blog-post">
           <h1>{{article.title}}</h1>
-          <div class="item-info">Posted by <span>{{admin}}</span> on {{getTime(article.created_at)}} </div>
+          <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} </div>
           <div class="item-content" v-html="article.text">{{article.text}}</div>
         </div>
       </div>
       <div class="col-md-1"></div>
-      <PageSidebar class="col-md-3"></PageSidebar>
+      <PageSidebar class="col-md-3" style="padding-top: 30px;"></PageSidebar>
     </div>
   </div>
 </template>
@@ -20,8 +20,7 @@
     data: function () {
       return {
         links: [],
-        article: {},
-        admin: '刘白菜'
+        article: {}
       }
     },
     created: function () {
@@ -32,17 +31,6 @@
       })
     },
     methods: {
-      getArticle (id) {
-        return this.$http.get(`http://api.blog.liubaicai.net/articles/${id}`)
-          .then(function (data) {
-            if (data.status === 200) {
-              return data.body
-            }
-          })
-      },
-      getTime (strTime) {
-        return new Date(strTime).toDateString()
-      }
     }
   }
 </script>
