@@ -1,14 +1,14 @@
 import Vue from 'vue'
+
 import Router from 'vue-router'
-import VueResource from 'vue-resource'
+Vue.use(Router)
+
 import Index from '@/components/index'
 import Article from '@/components/article'
 import Archive from '@/components/archive'
 import Login from '@/components/login'
+import Manager from '@/components/manager'
 import NotFound from '@/components/r_404'
-
-Vue.use(Router)
-Vue.use(VueResource)
 
 export default new Router({
   mode: 'history',
@@ -42,6 +42,18 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/manager',
+      name: 'Manager',
+      component: Manager,
+      beforeEnter: (to, from, next) => {
+        if (Vue.cookie.get('admin_authorization')) {
+          console.log(Vue.cookie.get('admin_authorization'))
+        } else {
+          next({ name: 'Login' })
+        }
+      }
     },
     {
       path: '*',

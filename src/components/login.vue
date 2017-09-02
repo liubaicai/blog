@@ -14,15 +14,17 @@
           </div>
           <div class="form-bottom">
             <form role="form" action="" method="post" class="login-form">
+              <label class="input-error" v-show="errorMessage">{{errorMessage}}</label>
               <div class="form-group">
-                <label class="sr-only" for="form-username">Username</label>
-                <input type="text" name="form-username" placeholder="Username..." class="form-username form-control" id="form-username">
+                <input type="text" value="刘白菜" readonly name="form-username" placeholder="Username..."
+                       class="form-username form-control">
               </div>
               <div class="form-group">
-                <label class="sr-only" for="form-password">Password</label>
-                <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
+                <input type="password" name="form-password" placeholder="Password..."
+                       v-model="password"
+                       class="form-password form-control">
               </div>
-              <button type="submit" class="btn">Sign in!</button>
+              <button type="button" @click.prevent="onSubmit" class="btn btn-default">Sign in!</button>
             </form>
           </div>
         </div>
@@ -35,36 +37,40 @@
 
 <script>
   export default {
-    name: 'login'
+    name: 'login',
+    data: function () {
+      return {
+        password: '',
+        errorMessage: ''
+      }
+    },
+    methods: {
+      onSubmit () {
+        if (this.password.length <= 0) {
+          this.errorMessage = 'input password'
+        } else {
+          this.toLogin(this.md5(this.password))
+        }
+      }
+    }
   }
 </script>
 
 <style scoped>
-
-  strong { font-weight: 500; }
-
-  a, a:hover, a:focus {
-    color: #de615e;
-    text-decoration: none;
-    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
-  }
-
   h1, h2 {
     margin-top: 10px;
     font-size: 38px;
     font-weight: 100;
-    color: #555;
+    color: #333;
     line-height: 50px;
   }
 
   h3 {
     font-size: 22px;
     font-weight: 300;
-    color: #555;
+    color: #333;
     line-height: 30px;
   }
-
-  img { max-width: 100%; }
 
   ::-moz-selection { background: #de615e; color: #fff; text-shadow: none; }
   ::selection { background: #de615e; color: #fff; text-shadow: none; }
@@ -76,24 +82,6 @@
     line-height: 20px;
   }
 
-  .top-content .text {
-    color: #fff;
-  }
-
-  .top-content .text h1 { color: #fff; }
-
-  .top-content .description {
-    margin: 20px 0 10px 0;
-  }
-
-  .top-content .description p { opacity: 0.8; }
-
-  .top-content .description a {
-    color: #fff;
-  }
-  .top-content .description a:hover,
-  .top-content .description a:focus { border-bottom: 1px dotted #fff; }
-
   .form-box {
     margin-top: 35px;
   }
@@ -102,8 +90,10 @@
     overflow: hidden;
     padding: 0 25px 15px 25px;
     background: #444;
-    background: rgba(0, 0, 0, 0.35);
-    -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;
+    background: rgba(0, 0, 0, 0.65);
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
     text-align: left;
   }
 
@@ -113,8 +103,14 @@
     padding-top: 25px;
   }
 
-  .form-top-left h3 { margin-top: 0; color: #fff; }
-  .form-top-left p { opacity: 0.8; color: #fff; }
+  .form-top-left h3 {
+    margin-top: 0;
+    color: #fff;
+  }
+  .form-top-left p {
+    opacity: 0.8;
+    color: #fff;
+  }
 
   .form-top-right {
     float: left;
@@ -129,9 +125,10 @@
 
   .form-bottom {
     padding: 25px 25px 30px 25px;
-    background: #444;
-    background: rgba(0, 0, 0, 0.3);
-    -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+    background: rgba(0, 0, 0, 0.6);
+    -moz-border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
     text-align: left;
   }
 
@@ -144,6 +141,6 @@
   }
 
   .form-bottom form .input-error {
-    border-color: #de615e;
+    color: #de615e;
   }
 </style>

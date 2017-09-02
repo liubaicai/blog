@@ -36,5 +36,8 @@ export default{
           }
         })
     }
+    Vue.prototype.toLogin = function (pwdMd5) {
+      console.log(pwdMd5)
+    }
   }
 }

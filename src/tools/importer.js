@@ -4,6 +4,12 @@
 
 import Vue from 'vue'
 
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
+import VueCookie from 'vue-cookie'
+Vue.use(VueCookie)
+
 import XConst from './const'
 import XUtils from './utils'
 import XApi from './api'
