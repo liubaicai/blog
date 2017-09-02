@@ -37,7 +37,12 @@ export default{
         })
     }
     Vue.prototype.toLogin = function (pwdMd5) {
-      console.log(pwdMd5)
+      return this.$http.get(`http://api.blog.liubaicai.net/configs/login?password=${pwdMd5}`)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
     }
   }
 }

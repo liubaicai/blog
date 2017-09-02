@@ -49,7 +49,7 @@ export default new Router({
       component: Manager,
       beforeEnter: (to, from, next) => {
         if (Vue.cookie.get('admin_authorization')) {
-          console.log(Vue.cookie.get('admin_authorization'))
+          next()
         } else {
           next({ name: 'Login' })
         }

@@ -21,7 +21,7 @@
               </div>
               <div class="form-group">
                 <input type="password" name="form-password" placeholder="Password..."
-                       v-model="password"
+                       v-model="password" @keyup.enter="onSubmit"
                        class="form-password form-control">
               </div>
               <button type="button" @click.prevent="onSubmit" class="btn btn-default">Sign in!</button>
@@ -49,7 +49,16 @@
         if (this.password.length <= 0) {
           this.errorMessage = 'input password'
         } else {
-          this.toLogin(this.md5(this.password))
+          var that = this
+          this.toLogin(that.md5(that.password)).then(function (data) {
+            if (data['code'] === 200) {
+              that.errorMessage = ''
+              that.$cookie.set('admin_authorization', data['data']['token'], 30)
+              that.$router.push({name: 'Manager'})
+            } else {
+              that.errorMessage = data['message']
+            }
+          })
         }
       }
     }
