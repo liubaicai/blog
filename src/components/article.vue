@@ -4,7 +4,9 @@
       <div class="col-md-8 ">
         <div class="blog-post">
           <h1>{{article.title}}</h1>
-          <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} </div>
+          <div class="item-info">
+            Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}}
+          </div>
           <div class="item-content" v-html="article.text">{{article.text}}</div>
         </div>
         <XComment :gid="article.id"></XComment>

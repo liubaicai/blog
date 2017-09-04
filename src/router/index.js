@@ -46,7 +46,6 @@ export default new Router({
     {
       path: '/manager',
       name: 'Manager',
-      component: Manager,
       beforeEnter: (to, from, next) => {
         if (Vue.cookie.get('admin_authorization')) {
           next()
@@ -55,6 +54,10 @@ export default new Router({
         }
       },
       children: [
+        {
+          path: '*',
+          component: Manager
+        }
       ]
     },
     {
