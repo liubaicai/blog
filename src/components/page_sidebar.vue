@@ -7,6 +7,18 @@
 
         <li v-for="link in links" @click="navTo(link.url)" class="list-group-item">{{link.title}}</li>
       </ul>
+
+      <ul class="list-group" style="margin-top: 20px;">
+        <li class="list-group-item"><strong>管理|MANAGER</strong></li>
+        <template v-if="authorization()">
+          <li @click="toPublish()" class="list-group-item">发表</li>
+          <li @click="toManager()" class="list-group-item">管理</li>
+          <li @click="toLogout()" class="list-group-item">注销</li>
+        </template>
+        <template v-else>
+          <li @click="toLogin()" class="list-group-item">登录</li>
+        </template>
+      </ul>
     </div>
   </div>
 </template>
@@ -31,6 +43,26 @@
       },
       navTo (url) {
         window.open(url)
+      },
+      toLogin () {
+        this.$router.push({name: 'Login'})
+      },
+      toLogout () {
+        this.$cookie.delete('admin_authorization')
+        this.$router.go(0)
+      },
+      toManager () {
+        this.$router.push({name: 'Manager'})
+      },
+      toPublish () {
+        console.log('toPublish click')
+      },
+      authorization () {
+        if (this.$cookie.get('admin_authorization')) {
+          return true
+        } else {
+          return false
+        }
       }
     }
   }

@@ -53,7 +53,9 @@ export default new Router({
         } else {
           next({ name: 'Login' })
         }
-      }
+      },
+      children: [
+      ]
     },
     {
       path: '*',
