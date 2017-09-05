@@ -1,7 +1,19 @@
 <template>
   <div id="app">
     <PageHeader></PageHeader>
-    <router-view></router-view>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 ">
+
+          <router-view></router-view>
+
+        </div>
+        <div class="col-md-1"></div>
+        <PageSidebar class="col-md-3" style="padding-top: 30px;"></PageSidebar>
+      </div>
+    </div>
+
     <PageFooter></PageFooter>
   </div>
 </template>

@@ -1,30 +1,24 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 ">
-        <div id="post-container">
-          <transition-group name="list" tag="p">
-            <div v-for="article in articles" :key="article.id" class="blog-post">
-              <h1>{{article.title}}</h1>
-              <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} </div>
-              <div class="item-content" v-html="article.text">{{article.text}}</div>
-              <router-link :to="{name: 'Article', params: { id: article.id }}">Read More <i class="fa fa-angle-right"></i></router-link>
-            </div>
-          </transition-group>
+  <div>
+    <div id="post-container">
+      <transition-group name="list" tag="p">
+        <div v-for="article in articles" :key="article.id" class="blog-post">
+          <h1>{{article.title}}</h1>
+          <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} </div>
+          <div class="item-content" v-html="article.text">{{article.text}}</div>
+          <router-link :to="{name: 'Article', params: { id: article.id }}">Read More <i class="fa fa-angle-right"></i></router-link>
         </div>
-
-        <paginate
-          :page-count="pageCount"
-          :force-page="pageNo"
-          container-class="pagination"
-          prev-text="«"
-          next-text="»"
-          :click-handler="pageNoClick">
-        </paginate>
-      </div>
-      <div class="col-md-1"></div>
-      <PageSidebar class="col-md-3" style="padding-top: 30px;"></PageSidebar>
+      </transition-group>
     </div>
+
+    <paginate
+      :page-count="pageCount"
+      :force-page="pageNo"
+      container-class="pagination"
+      prev-text="«"
+      next-text="»"
+      :click-handler="pageNoClick">
+    </paginate>
   </div>
 </template>
 

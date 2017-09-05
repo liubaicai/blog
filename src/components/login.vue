@@ -1,36 +1,28 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="form-box" style="max-width: 500px;">
-          <div class="form-top">
-            <div class="form-top-left">
-              <h3>Login to site</h3>
-              <p>Enter your username and password to log on:</p>
-            </div>
-            <div class="form-top-right">
-              <i class="fa fa-lock"></i>
-            </div>
-          </div>
-          <div class="form-bottom">
-            <form role="form" action="" method="post" class="login-form">
-              <label class="input-error" v-show="errorMessage">{{errorMessage}}</label>
-              <div class="form-group">
-                <input type="text" value="刘白菜" readonly name="form-username" placeholder="Username..."
-                       class="form-username form-control">
-              </div>
-              <div class="form-group">
-                <input type="password" name="form-password" placeholder="Password..."
-                       v-model="password" @keyup.enter="onSubmit"
-                       class="form-password form-control">
-              </div>
-              <button type="button" @click.prevent="onSubmit" class="btn btn-default">Sign in!</button>
-            </form>
-          </div>
-        </div>
+  <div class="form-box" style="max-width: 500px;">
+    <div class="form-top">
+      <div class="form-top-left">
+        <h3>Login to site</h3>
+        <p>Enter your username and password to log on:</p>
       </div>
-      <div class="col-md-1"></div>
-      <PageSidebar class="col-md-3" style="padding-top: 30px;"></PageSidebar>
+      <div class="form-top-right">
+        <i class="fa fa-lock"></i>
+      </div>
+    </div>
+    <div class="form-bottom">
+      <form role="form" action="" method="post" class="login-form">
+        <label class="input-error" v-show="errorMessage">{{errorMessage}}</label>
+        <div class="form-group">
+          <input type="text" value="刘白菜" readonly name="form-username" placeholder="Username..."
+                 class="form-username form-control">
+        </div>
+        <div class="form-group">
+          <input type="password" name="form-password" placeholder="Password..."
+                 v-model="password" @keyup.enter="onSubmit"
+                 class="form-password form-control">
+        </div>
+        <button type="button" @click.prevent="onSubmit" class="btn btn-default">Sign in!</button>
+      </form>
     </div>
   </div>
 </template>

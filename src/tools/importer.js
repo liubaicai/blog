@@ -18,11 +18,11 @@ Vue.use(XUtils)
 Vue.use(XApi)
 
 import Paginate from 'vuejs-paginate'
-import PageHeader from '../components/page_header.vue'
-import PageFooter from '../components/page_footer.vue'
-import PageSidebar from '../components/page_sidebar.vue'
-import XSearch from '../components/x_search.vue'
-import XComment from '../components/x_comment.vue'
+import PageHeader from '../components/section/page_header.vue'
+import PageFooter from '../components/section/page_footer.vue'
+import PageSidebar from '../components/section/page_sidebar.vue'
+import XSearch from '../components/section/x_search.vue'
+import XComment from '../components/section/x_comment.vue'
 
 Vue.component('paginate', Paginate)
 Vue.component('PageHeader', PageHeader)
