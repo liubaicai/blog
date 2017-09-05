@@ -44,5 +44,16 @@ export default{
           }
         })
     }
+    Vue.prototype.toPublish = function () {
+      return this.$http.post(`http://127.0.0.1:3000/articles`, {article: {title: '测试', text: 'ceshi', category_id: 1}, token: Vue.cookie.get('admin_authorization')})
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    // this.toPublish().then(function (data) {
+    //   console.log(data)
+    // })
   }
 }
