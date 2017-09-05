@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "element-ui": "^1.4.3",
     "font-awesome": "^4.7.0",
     "gitment": "0.0.3",
     "jquery": "^3.2.1",

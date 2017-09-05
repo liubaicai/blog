@@ -9,8 +9,7 @@ import Archive from '@/components/archive'
 import Login from '@/components/login'
 import NotFound from '@/components/r_404'
 
-import Manager from '@/components/manager/manager'
-import MConfig from '@/components/manager/config'
+import Manager from '@/components/manager'
 
 export default new Router({
   mode: 'history',
@@ -49,18 +48,6 @@ export default new Router({
       path: '/manager',
       name: 'Manager',
       component: Manager,
-      beforeEnter: (to, from, next) => {
-        if (Vue.cookie.get('admin_authorization')) {
-          next()
-        } else {
-          next({ name: 'Login' })
-        }
-      }
-    },
-    {
-      path: '/manager/config',
-      name: 'MConfig',
-      component: MConfig,
       beforeEnter: (to, from, next) => {
         if (Vue.cookie.get('admin_authorization')) {
           next()
