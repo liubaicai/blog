@@ -21,8 +21,11 @@ import Paginate from 'vuejs-paginate'
 import PageHeader from '../components/section/page_header.vue'
 import PageFooter from '../components/section/page_footer.vue'
 import PageSidebar from '../components/section/page_sidebar.vue'
+
 import XSearch from '../components/section/x_search.vue'
 import XComment from '../components/section/x_comment.vue'
+
+import MArticle from '../components/section/m_article.vue'
 
 Vue.component('paginate', Paginate)
 Vue.component('PageHeader', PageHeader)
@@ -30,6 +33,7 @@ Vue.component('PageFooter', PageFooter)
 Vue.component('PageSidebar', PageSidebar)
 Vue.component('XSearch', XSearch)
 Vue.component('XComment', XComment)
+Vue.component('MArticle', MArticle)
 
 import 'font-awesome/css/font-awesome.css'
 import 'bootstrap/dist/css/bootstrap.css'

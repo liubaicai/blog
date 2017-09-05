@@ -6,7 +6,8 @@
       <li role="presentation"><a>链接管理</a></li>
       <li role="presentation"><a>网站设置</a></li>
     </ul>
-  </ul>
+    </ul>
+    <MArticle></MArticle>
   </div>
 </template>
 
