@@ -10,6 +10,13 @@ Vue.use(VueResource)
 import VueCookie from 'vue-cookie'
 Vue.use(VueCookie)
 
+import {Alert, Confirm, Prompt, Toast} from 'wc-messagebox'
+import 'wc-messagebox/style.css'
+Vue.use(Alert)
+Vue.use(Confirm)
+Vue.use(Prompt)
+Vue.use(Toast)
+
 import XConst from './const'
 import XUtils from './utils'
 import XApi from './api'
@@ -24,6 +31,7 @@ import PageSidebar from '../components/section/page_sidebar.vue'
 
 import XSearch from '../components/section/x_search.vue'
 import XComment from '../components/section/x_comment.vue'
+import XEditor from '../components/section/x_editor.vue'
 
 import MArticle from '../components/section/m_article.vue'
 
@@ -31,8 +39,11 @@ Vue.component('paginate', Paginate)
 Vue.component('PageHeader', PageHeader)
 Vue.component('PageFooter', PageFooter)
 Vue.component('PageSidebar', PageSidebar)
+
 Vue.component('XSearch', XSearch)
 Vue.component('XComment', XComment)
+Vue.component('XEditor', XEditor)
+
 Vue.component('MArticle', MArticle)
 
 import 'font-awesome/css/font-awesome.css'

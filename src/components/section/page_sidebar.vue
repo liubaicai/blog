@@ -11,8 +11,8 @@
       <ul class="list-group" style="margin-top: 20px;">
         <li class="list-group-item"><strong>管理|MANAGER</strong></li>
         <template v-if="authorization()">
-          <li @click="toPublish()" class="list-group-item">发表</li>
-          <li @click="toManager()" class="list-group-item">管理</li>
+          <!--<li @click="toPublish()" class="list-group-item">发表</li>-->
+          <li @click="toManager()" class="list-group-item">仪表盘</li>
           <li @click="toLogout()" class="list-group-item">注销</li>
         </template>
         <template v-else>
@@ -53,9 +53,6 @@
       },
       toManager () {
         this.$router.push({name: 'Manager'})
-      },
-      toPublish () {
-        console.log('toPublish click')
       },
       authorization () {
         if (this.$cookie.get('admin_authorization')) {

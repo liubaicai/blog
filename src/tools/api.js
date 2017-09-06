@@ -36,6 +36,14 @@ export default{
           }
         })
     }
+    Vue.prototype.getCategories = function () {
+      return this.$http.get(`http://api.blog.liubaicai.net/categories`)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
     Vue.prototype.toLogin = function (pwdMd5) {
       return this.$http.get(`http://api.blog.liubaicai.net/configs/login?password=${pwdMd5}`)
         .then(function (data) {
@@ -44,16 +52,14 @@ export default{
           }
         })
     }
-    Vue.prototype.toPublish = function () {
-      return this.$http.post(`http://127.0.0.1:3000/articles`, {article: {title: '测试', text: 'ceshi', category_id: 1}, token: Vue.cookie.get('admin_authorization')})
+    Vue.prototype.toPublish = function (article) {
+      // data: {article: {title: '测试', text: 'ceshi', category_id: 1}, token: Vue.cookie.get('admin_authorization')}
+      return this.$http.post(`http://api.blog.liubaicai.net/articles`, article)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
           }
         })
     }
-    // this.toPublish().then(function (data) {
-    //   console.log(data)
-    // })
   }
 }

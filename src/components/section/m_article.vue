@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin-top: 10px;">
-      <button type="button" class="btn btn-success" @click.prevent="isShowNewArticle = false">新建</button>
+      <button type="button" class="btn btn-success" @click.prevent="isShowNewArticle = true">新建</button>
     </div>
     <table class="table table-striped" style="margin-top: 10px;">
       <tbody><tr>
@@ -18,9 +18,8 @@
       </tr>
       </tbody>
     </table>
-    <modal v-if="isShowNewArticle" @close="isShowNewArticle = false">
-      https://cn.vuejs.org/v2/examples/modal.html
-    </modal>
+    <XEditor v-if="isShowNewArticle" @close="isShowNewArticle = false">
+    </XEditor>
   </div>
 </template>
 
@@ -29,7 +28,7 @@
     data: function () {
       return {
         articles: [],
-        isShowNewArticle: true
+        isShowNewArticle: false
       }
     },
     created: function () {
