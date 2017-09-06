@@ -6,6 +6,7 @@ export default{
   install (Vue) {
     Vue.prototype.$host = 'http://api.blog.liubaicai.net'
     // Vue.prototype.$host = 'http://0.0.0.0:3000'
+    // Vue.prototype.$host = 'http://127.0.0.1:3000'
     Vue.prototype.getArticles = function (page) {
       return this.$http.get(`${this.$host}/articles?page=${page || 1}&per_page=5`)
         .then(function (data) {
@@ -74,6 +75,31 @@ export default{
     }
     Vue.prototype.toDelete = function (id) {
       return this.$http.delete(`${this.$host}/articles/${id}?token=${Vue.cookie.get('admin_authorization')}`)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.toNewLink = function (sendData) {
+      // sendData: {link: {title: '测试', url: 'ceshi', sort: 1}, token: Vue.cookie.get('admin_authorization')}
+      return this.$http.post(`${this.$host}/links`, sendData)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.toEditLink = function (id, sendData) {
+      return this.$http.put(`${this.$host}/links/${id}`, sendData)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.toDeleteLink = function (id) {
+      return this.$http.delete(`${this.$host}/links/${id}?token=${Vue.cookie.get('admin_authorization')}`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
