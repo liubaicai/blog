@@ -3,7 +3,7 @@
     <div class="blog-post">
       <h1>{{article.title}}</h1>
       <div class="item-info">
-        Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}}
+        Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} | <span>{{article.category.name}}</span>
       </div>
       <div class="item-content" v-html="article.text">{{article.text}}</div>
     </div>

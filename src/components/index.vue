@@ -4,7 +4,7 @@
       <transition-group name="list" tag="p">
         <div v-for="article in articles" :key="article.id" class="blog-post">
           <h1>{{article.title}}</h1>
-          <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} </div>
+          <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} | <span>{{article.category.name}}</span></div>
           <div class="item-content" v-html="article.text">{{article.text}}</div>
           <router-link :to="{name: 'Article', params: { id: article.id }}">Read More <i class="fa fa-angle-right"></i></router-link>
         </div>

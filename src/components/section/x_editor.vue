@@ -105,6 +105,10 @@
     ]
   })
   export default {
+    props: [
+      'article',
+      'index'
+    ],
     data () {
       return {
         categories: [],
@@ -119,6 +123,14 @@
       this.getCategories().then(function (data) {
         that.categories = data['data']
       })
+    },
+    mounted () {
+      var that = this
+      if (that.article && that.article.id >= 0) {
+        that.title = that.article.title
+        that.categoryId = that.article.category_id
+        that.content = that.article.text
+      }
     },
     methods: {
       updateContent (data) {
@@ -139,17 +151,30 @@
         }
       },
       onClickSubmit () {
-        var article = {article: {title: this.title, text: this.content, category_id: this.categoryId}, token: this.$cookie.get('admin_authorization')}
         var that = this
-        this.toPublish(article).then(function (data) {
-          if (data['code'] === 200) {
-            that.errorMessage = ''
-            this.$emit('close')
-            that.$router.go(0)
-          } else {
-            that.errorMessage = data['message']
-          }
-        })
+        if (that.article && that.article.id >= 0) {
+          var articleEdit = {article: {id: that.article.id, title: that.title, text: that.content, category_id: that.categoryId}, token: that.$cookie.get('admin_authorization')}
+          this.toEdit(that.article.id, articleEdit).then(function (data) {
+            if (data['code'] === 200) {
+              that.errorMessage = ''
+              that.$emit('close')
+              that.$emit('update', that.index, data['data'])
+            } else {
+              that.errorMessage = data['message']
+            }
+          })
+        } else {
+          var articleNew = {article: {title: that.title, text: that.content, category_id: that.categoryId}, token: that.$cookie.get('admin_authorization')}
+          this.toPublish(articleNew).then(function (data) {
+            if (data['code'] === 200) {
+              that.errorMessage = ''
+              that.$emit('close')
+              that.$emit('insert', data['data'])
+            } else {
+              that.errorMessage = data['message']
+            }
+          })
+        }
       }
     },
     components: {

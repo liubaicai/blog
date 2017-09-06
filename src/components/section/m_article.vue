@@ -10,15 +10,17 @@
         <th></th>
         <th></th>
       </tr>
-      <tr v-for="article in articles">
+      <tr v-for="(article, index) in articles">
         <td>{{article.id}}</td>
         <td><router-link :to="{name: 'Article', params: { id: article.id }}">{{article.title}}</router-link></td>
-        <td>编辑</td>
-        <td>删除</td>
+        <td><a @click.prevent="updateArticle(index, article)">编辑</a></td>
+        <td><a @click.prevent="deleteArticle(index, article.id)">删除</a></td>
       </tr>
       </tbody>
     </table>
-    <XEditor v-if="isShowNewArticle" @close="isShowNewArticle = false">
+    <XEditor v-if="isShowNewArticle" @insert="onInsert" @close="isShowNewArticle = false">
+    </XEditor>
+    <XEditor v-if="isShowEditArticle" :index="editIndex" :article="editArticle" @update="onUpdate" @close="isShowEditArticle = false">
     </XEditor>
   </div>
 </template>
@@ -28,7 +30,10 @@
     data: function () {
       return {
         articles: [],
-        isShowNewArticle: false
+        isShowNewArticle: false,
+        isShowEditArticle: false,
+        editIndex: -1,
+        editArticle: {}
       }
     },
     created: function () {
@@ -39,6 +44,33 @@
       })
     },
     methods: {
+      deleteArticle (index, id) {
+        var that = this
+        that.$confirm('确定删除?')
+          .then(function () {
+            that.toDelete(id).then(function (data) {
+              if (data['code'] === 200) {
+                that.articles.splice(index, 1)
+              } else {
+                that.$alert(data['message'])
+              }
+            })
+          })
+          .catch(function () {
+            console.log('取消')
+          })
+      },
+      updateArticle (index, article) {
+        this.editIndex = index
+        this.editArticle = article
+        this.isShowEditArticle = true
+      },
+      onInsert (data) {
+        this.articles.unshift(data)
+      },
+      onUpdate (index, data) {
+        this.articles.splice(index, 1, data)
+      }
     }
   }
 </script>

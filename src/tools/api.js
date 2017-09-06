@@ -4,8 +4,10 @@
 
 export default{
   install (Vue) {
+    Vue.prototype.$host = 'http://api.blog.liubaicai.net'
+    // Vue.prototype.$host = 'http://0.0.0.0:3000'
     Vue.prototype.getArticles = function (page) {
-      return this.$http.get(`http://api.blog.liubaicai.net/articles?page=${page || 1}&per_page=5`)
+      return this.$http.get(`${this.$host}/articles?page=${page || 1}&per_page=5`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
@@ -13,7 +15,7 @@ export default{
         })
     }
     Vue.prototype.getArticle = function (id) {
-      return this.$http.get(`http://api.blog.liubaicai.net/articles/${id}`)
+      return this.$http.get(`${this.$host}/articles/${id}`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
@@ -21,7 +23,7 @@ export default{
         })
     }
     Vue.prototype.searchArticles = function (s) {
-      return this.$http.get(`http://api.blog.liubaicai.net/articles/search?s=${s}&page=1&per_page=99999`)
+      return this.$http.get(`${this.$host}/articles/search?s=${s}&page=1&per_page=99999`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
@@ -29,7 +31,7 @@ export default{
         })
     }
     Vue.prototype.getLinks = function () {
-      return this.$http.get(`http://api.blog.liubaicai.net/links`)
+      return this.$http.get(`${this.$host}/links`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
@@ -37,7 +39,7 @@ export default{
         })
     }
     Vue.prototype.getCategories = function () {
-      return this.$http.get(`http://api.blog.liubaicai.net/categories`)
+      return this.$http.get(`${this.$host}/categories`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
@@ -45,16 +47,33 @@ export default{
         })
     }
     Vue.prototype.toLogin = function (pwdMd5) {
-      return this.$http.get(`http://api.blog.liubaicai.net/configs/login?password=${pwdMd5}`)
+      return this.$http.get(`${this.$host}/configs/login?password=${pwdMd5}`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
           }
         })
     }
-    Vue.prototype.toPublish = function (article) {
-      // data: {article: {title: '测试', text: 'ceshi', category_id: 1}, token: Vue.cookie.get('admin_authorization')}
-      return this.$http.post(`http://api.blog.liubaicai.net/articles`, article)
+    Vue.prototype.toPublish = function (sendData) {
+      // sendData: {article: {title: '测试', text: 'ceshi', category_id: 1}, token: Vue.cookie.get('admin_authorization')}
+      return this.$http.post(`${this.$host}/articles`, sendData)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.toEdit = function (id, sendData) {
+      // sendData: {article: {title: '测试', text: 'ceshi', category_id: 1}, token: Vue.cookie.get('admin_authorization')}
+      return this.$http.put(`${this.$host}/articles/${id}`, sendData)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.toDelete = function (id) {
+      return this.$http.delete(`${this.$host}/articles/${id}?token=${Vue.cookie.get('admin_authorization')}`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
