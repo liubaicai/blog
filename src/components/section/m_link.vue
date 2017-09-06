@@ -43,11 +43,15 @@
         document.title = this.$default_title
         var that = this
         this.getLinks().then(function (data) {
-          var result = data['data']
-          for (var i = 0; i < result.length; i++) {
-            data['data'][i].editing = false
+          if (data['code'] === 200) {
+            var result = data['data']
+            for (var i = 0; i < result.length; i++) {
+              data['data'][i].editing = false
+            }
+            that.links = result
+          } else {
+            that.$alert(data['message'])
           }
-          that.links = result
         })
       },
       methods: {

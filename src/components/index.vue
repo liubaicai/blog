@@ -36,18 +36,26 @@
       document.title = this.$default_title
       var that = this
       this.getArticles(this.$route.params.page || this.getUrlKey('page') || 1).then(function (data) {
-        that.articles = data['data']
-        that.pageNo = (this.$route.params.page || this.getUrlKey('page') || 1) - 1
-        that.pageCount = Math.ceil((data['total']) / (data['per_page']))
+        if (data['code'] === 200) {
+          that.articles = data['data']
+          that.pageNo = (this.$route.params.page || this.getUrlKey('page') || 1) - 1
+          that.pageCount = Math.ceil((data['total']) / (data['per_page']))
+        } else {
+          that.$alert(data['message'])
+        }
       })
     },
     watch: {
       '$route' (to, from) {
         var that = this
         this.getArticles(to.params.page || this.getUrlKey('page') || 1).then(function (data) {
-          that.articles = data['data']
-          that.pageNo = (to.params.page || this.getUrlKey('page') || 1) - 1
-          that.pageCount = Math.ceil((data['total']) / (data['per_page']))
+          if (data['code'] === 200) {
+            that.articles = data['data']
+            that.pageNo = (to.params.page || this.getUrlKey('page') || 1) - 1
+            that.pageCount = Math.ceil((data['total']) / (data['per_page']))
+          } else {
+            that.$alert(data['message'])
+          }
         })
       }
     },

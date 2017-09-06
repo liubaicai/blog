@@ -17,7 +17,7 @@
 
           <div class="modal-body">
             <slot name="body">
-              <Editor :content="content" @change="updateContent" :height="300"></Editor>
+              <Editor :content="content" @change="updateContent" :height="300" :auto-height="false"></Editor>
             </slot>
           </div>
 
@@ -127,9 +127,15 @@
     mounted () {
       var that = this
       if (that.article && that.article.id >= 0) {
-        that.title = that.article.title
-        that.categoryId = that.article.category_id
-        that.content = that.article.text
+        this.getArticle(that.article.id).then(function (data) {
+          if (data['code'] === 200) {
+            that.title = data['data'].title
+            that.categoryId = data['data'].category_id
+            that.content = data['data'].text
+          } else {
+            that.$alert(data['message'])
+          }
+        })
       }
     },
     methods: {
@@ -205,6 +211,7 @@
   .modal-container {
     width: 100%;
     max-width: 800px;
+    max-height: 600px;
     margin: 0px auto;
     padding: 20px 20px 10px 20px;
     background-color: #fff;

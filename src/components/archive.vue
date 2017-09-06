@@ -26,14 +26,22 @@
       document.title = this.$default_title
       var that = this
       this.searchArticles(this.$route.params.s || '').then(function (data) {
-        that.articles = data['data']
+        if (data['code'] === 200) {
+          that.articles = data['data']
+        } else {
+          that.$alert(data['message'])
+        }
       })
     },
     watch: {
       '$route' (to, from) {
         var that = this
         this.searchArticles(this.$route.params.s || '').then(function (data) {
-          that.articles = data['data']
+          if (data['code'] === 200) {
+            that.articles = data['data']
+          } else {
+            that.$alert(data['message'])
+          }
         })
       }
     },

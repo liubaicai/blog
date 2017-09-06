@@ -23,8 +23,12 @@
     created: function () {
       var that = this
       this.getArticle(this.$route.params.id || 1).then(function (data) {
-        that.article = data['data']
-        document.title = that.article['title']
+        if (data['code'] === 200) {
+          that.article = data['data']
+          document.title = that.article['title']
+        } else {
+          that.$alert(data['message'])
+        }
       })
     },
     methods: {
