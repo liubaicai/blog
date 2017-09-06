@@ -34,6 +34,7 @@ import XComment from '../components/section/x_comment.vue'
 import XEditor from '../components/section/x_editor.vue'
 
 import MArticle from '../components/section/m_article.vue'
+import MLink from '../components/section/m_link.vue'
 
 Vue.component('paginate', Paginate)
 Vue.component('PageHeader', PageHeader)
@@ -45,6 +46,7 @@ Vue.component('XComment', XComment)
 Vue.component('XEditor', XEditor)
 
 Vue.component('MArticle', MArticle)
+Vue.component('MLink', MLink)
 
 import 'font-awesome/css/font-awesome.css'
 import 'bootstrap/dist/css/bootstrap.css'

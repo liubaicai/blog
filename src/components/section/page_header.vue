@@ -3,14 +3,14 @@
     <div class="overlay">
       <div class="container">
         <div class="row">
-          <div class="col-md-4 logo-div">
+          <div class="col-md-3 logo-div">
             <div class="logo-inner text-center">
               <div class="logo-name">
                 <router-link :to="{name: 'Index'}"><img src="/static/image/sitelogo.jpg" class="img-circle" /></router-link>
               </div>
             </div>
           </div>
-          <div class="col-md-8 header-text-top " id="about">
+          <div class="col-md-9 header-text-top " id="about">
             <h1>菜园子</h1>
             刘白菜的个人博客<br />
             风恶依然清白容，霜欺雪覆倒如钟，知心解我芊芊叶，永葆玲珑为尔忠。 <br />
