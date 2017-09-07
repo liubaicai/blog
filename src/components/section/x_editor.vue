@@ -143,29 +143,6 @@
       VueEditor
     }
   }
-//  var form = new FormData();
-//  form.append("token", "FFX5eQXCqq5bEIV0kg3syN7yF6EFYLaHY_xkrEFd:rfCXVoddR4K0Nt63DCMGQ-Laamc=:eyJzY29wZSI6Ind3dy1saXViYWljYWktbmV0IiwiZGVhZGxpbmUiOjE1MDQ3Nzg1NTN9");
-//  form.append("file", "touxiang.jpg");
-//  form.append("key", "asdasdyouadadsadasda.jpg");
-//
-//  var settings = {
-//    "async": true,
-//    "crossDomain": true,
-//    "url": "http://upload.qiniu.com/",
-//    "method": "POST",
-//    "headers": {
-//      "cache-control": "no-cache",
-//      "postman-token": "8d650bee-832f-130b-77e2-e89653ca8df6"
-//    },
-//    "processData": false,
-//    "contentType": false,
-//    "mimeType": "multipart/form-data",
-//    "data": form
-//  }
-//
-//  $.ajax(settings).done(function (response) {
-//    console.log(response);
-//  });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -190,7 +167,7 @@
   .modal-container {
     width: 100%;
     max-width: 800px;
-    max-height: 800px;
+    max-height: 600px;
     margin: 0px auto;
     padding: 20px 20px 10px 20px;
     background-color: #fff;
@@ -214,7 +191,7 @@
 
   .modal-body {
     margin: -10px 0;
-    height: 480px;
+    height: 380px;
   }
 
   .modal-default-button {
