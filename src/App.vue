@@ -30,6 +30,9 @@
     line-height:30px;
     color:#333333;
   }
+  ::-webkit-scrollbar {
+    width:0px;
+  }
   a,a:visited,a:hover,a:active {
     color: #CC6666;
     text-decoration: none;

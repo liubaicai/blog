@@ -6,8 +6,8 @@
       <li role="presentation" :class="{ active: isMLink }"><a @click="clearTab();isMLink = true">链接管理</a></li>
       <li role="presentation" :class="{ active: isMSetting }"><a @click="clearTab();isMSetting = true">网站设置</a></li>
     </ul>
-    <MArticle v-if="isMArticle"></MArticle>
-    <MLink v-if="isMLink"></MLink>
+    <MArticle v-show="isMArticle"></MArticle>
+    <MLink v-show="isMLink"></MLink>
   </div>
 </template>
 

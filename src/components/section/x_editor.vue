@@ -115,7 +115,8 @@
         title: '',
         categoryId: 1,
         content: '',
-        errorMessage: ''
+        errorMessage: '',
+        isEdited: false
       }
     },
     created () {
@@ -141,9 +142,10 @@
     methods: {
       updateContent (data) {
         this.content = data
+        this.isEdited = true
       },
       onClickCancel () {
-        if (this.title.length > 0 || this.content.length > 0) {
+        if (this.isEdited) {
           var that = this
           that.$confirm('确定取消编辑?')
             .then(function () {

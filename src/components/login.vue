@@ -47,6 +47,7 @@
               that.errorMessage = ''
               that.$cookie.set('admin_authorization', data['data']['token'], 30)
               that.$router.push({name: 'Manager'})
+              that.$store.commit('updateLoginStatus')
             } else {
               that.errorMessage = data['message']
             }

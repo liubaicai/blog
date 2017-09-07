@@ -36,7 +36,11 @@
     export default {
       data: function () {
         return {
-          links: []
+        }
+      },
+      computed: {
+        links () {
+          return this.$store.state.links
         }
       },
       created: function () {
@@ -44,11 +48,7 @@
         var that = this
         this.getLinks().then(function (data) {
           if (data['code'] === 200) {
-            var result = data['data']
-            for (var i = 0; i < result.length; i++) {
-              data['data'][i].editing = false
-            }
-            that.links = result
+            that.$store.commit('linkInit', data['data'])
           } else {
             that.$alert(data['message'])
           }
@@ -61,9 +61,7 @@
           this.toNewLink(sendData).then(function (data) {
             if (data['code'] === 200) {
               var result = data['data']
-              result.editing = false
-              that.links.unshift(result)
-              that.links.sort(that.sortBy('sort', false))
+              that.$store.commit('linkAdd', result)
             } else {
               that.$alert(data['message'])
             }
@@ -75,9 +73,7 @@
           this.toEditLink(link.id, sendData).then(function (data) {
             if (data['code'] === 200) {
               var result = data['data']
-              result.editing = false
-              that.links.splice(index, 1, result)
-              that.links.sort(that.sortBy('sort', false))
+              that.$store.commit('linkEdit', {index: index, link: result})
             } else {
               that.$alert(data['message'])
             }
@@ -89,7 +85,7 @@
             .then(function () {
               that.toDeleteLink(id).then(function (data) {
                 if (data['code'] === 200) {
-                  that.links.splice(index, 1)
+                  that.$store.commit('linkRemove', index)
                 } else {
                   that.$alert(data['message'])
                 }

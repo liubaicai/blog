@@ -10,7 +10,7 @@
 
       <ul class="list-group" style="margin-top: 20px;">
         <li class="list-group-item"><strong>管理|MANAGER</strong></li>
-        <template v-if="authorization()">
+        <template v-if="isAuthorization">
           <!--<li @click="toPublish()" class="list-group-item">发表</li>-->
           <li @click="toManager()" class="list-group-item">仪表盘</li>
           <li @click="toLogout()" class="list-group-item">注销</li>
@@ -28,14 +28,26 @@
     name: 'page-sidebar',
     data: function () {
       return {
-        links: []
+      }
+    },
+    computed: {
+      links () {
+        return this.$store.state.links
+      },
+      isAuthorization () {
+        return this.$store.state.isLogin
       }
     },
     created: function () {
       var that = this
       this.getLinks().then(function (data) {
-        that.links = data['data']
+        if (data['code'] === 200) {
+          that.$store.commit('linkInit', data['data'])
+        } else {
+          that.$alert(data['message'])
+        }
       })
+      that.$store.commit('updateLoginStatus')
     },
     methods: {
       onSearchEvent (data) {
@@ -53,13 +65,6 @@
       },
       toManager () {
         this.$router.push({name: 'Manager'})
-      },
-      authorization () {
-        if (this.$cookie.get('admin_authorization')) {
-          return true
-        } else {
-          return false
-        }
       }
     }
   }
