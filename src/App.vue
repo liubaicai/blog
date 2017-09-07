@@ -30,6 +30,11 @@
     line-height:30px;
     color:#333333;
   }
+  img{
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
   ::-webkit-scrollbar {
     width:0px;
   }

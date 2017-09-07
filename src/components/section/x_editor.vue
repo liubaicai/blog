@@ -17,7 +17,10 @@
 
           <div class="modal-body">
             <slot name="body">
-
+              <vue-editor id="editor" style="height: 300px;"
+                          useCustomImageHandler
+                          @imageAdded="handleImageAdded" v-model="content" :editorToolbar="customToolbar">
+              </vue-editor>
             </slot>
           </div>
 
@@ -39,6 +42,7 @@
 </template>
 
 <script>
+  import { VueEditor } from 'vue2-editor'
   export default {
     props: [
       'article',
@@ -51,17 +55,18 @@
         categoryId: 1,
         content: '',
         errorMessage: '',
-        isEdited: false
+        isEdited: false,
+        customToolbar: [
+          ['bold', 'italic', 'underline'],
+          [{'list': 'ordered'}, {'list': 'bullet'}],
+          ['code-block', 'image']
+        ]
       }
     },
     created () {
       var that = this
       this.getCategories().then(function (data) {
         that.categories = data['data']
-      })
-      this.getUpToken().then(function (data) {
-        that.$store.commit('updateUpToken', data['uptoken'])
-        that.$store.commit('updateUpFilename')
       })
     },
     mounted () {
@@ -79,6 +84,20 @@
       }
     },
     methods: {
+      handleImageAdded: function (file, Editor, cursorLocation) {
+        this.getUpToken().then(function (data) {
+          var form = new FormData()
+          form.append('token', data['uptoken'])
+          form.append('key', `${Math.random().toString(36).substr(2)}${Math.random().toString(36).substr(2)}.jpg`)
+          form.append('file', file)
+          this.$http.post(`http://upload.qiniu.com/`, form)
+            .then(function (resdata) {
+              if (resdata.status === 200) {
+                Editor.insertEmbed(cursorLocation, 'image', `http://7xpagu.com1.z0.glb.clouddn.com/${resdata.body.key}-500p`)
+              }
+            })
+        })
+      },
       onClickCancel () {
         if (this.title.length > 0 || this.content.length > 0) {
           var that = this
@@ -121,6 +140,7 @@
       }
     },
     components: {
+      VueEditor
     }
   }
 //  var form = new FormData();
@@ -170,7 +190,7 @@
   .modal-container {
     width: 100%;
     max-width: 800px;
-    max-height: 600px;
+    max-height: 800px;
     margin: 0px auto;
     padding: 20px 20px 10px 20px;
     background-color: #fff;
@@ -194,7 +214,7 @@
 
   .modal-body {
     margin: -10px 0;
-    height: 350px;
+    height: 480px;
   }
 
   .modal-default-button {

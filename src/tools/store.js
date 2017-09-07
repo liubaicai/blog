@@ -10,17 +10,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     links: [],
-    isLogin: false,
-    upToken: '',
-    upFilename: ''
+    isLogin: false
   },
   mutations: {
-    updateUpToken (state, token) {
-      state.upToken = token
-    },
-    updateUpFilename (state) {
-      state.upFilename = `${Math.random().toString(36).substr(2)}${Math.random().toString(36).substr(2)}.jpg`
-    },
     updateLoginStatus (state) {
       if (Vue.cookie.get('admin_authorization')) {
         state.isLogin = true
