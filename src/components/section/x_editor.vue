@@ -17,7 +17,7 @@
 
           <div class="modal-body">
             <slot name="body">
-              <Editor :content="content" @change="updateContent" :height="300" :auto-height="false"></Editor>
+
             </slot>
           </div>
 
@@ -39,71 +39,6 @@
 </template>
 
 <script>
-  import VueHtml5Editor from 'vue-html5-editor'
-  const Editor = new VueHtml5Editor({
-    // 是否显示模块名称，开启的话会在工具栏的图标后台直接显示名称
-    // if set true,will append module name to toolbar after icon
-    showModuleName: false,
-    // 配置图片模块
-    // config image module
-    image: {
-      // 文件最大体积，单位字节  max file size
-      sizeLimit: 10 * 1024 * 1024,
-      // 上传参数,默认把图片转为base64而不上传
-      // upload config,default null and convert image to base64
-      upload: {
-        url: null,
-        headers: {},
-        params: {},
-        fieldName: {}
-      },
-      // 压缩参数,默认使用localResizeIMG进行压缩,设置为null禁止压缩
-      // compression config,default resize image by localResizeIMG (https://github.com/think2011/localResizeIMG)
-      // set null to disable compression
-      compress: {
-        width: 3000,
-        height: 3000,
-        quality: 80
-      },
-      // 响应数据处理,最终返回图片链接
-      // handle response data，return image url
-      uploadHandler (responseText) {
-        // default accept json data like  {ok:false,msg:"unexpected"} or {ok:true,data:"image url"}
-        var json = JSON.parse(responseText)
-        if (!json.ok) {
-          alert(json.msg)
-        } else {
-          return json.data
-        }
-      }
-    },
-    // 语言，内建的有英文（en-us）和中文（zh-cn）
-    // default en-us, en-us and zh-cn are built-in
-    language: 'zh-cn',
-    // 隐藏不想要显示出来的模块
-    // the modules you don't want
-    hiddenModules: [
-      'full-screen',
-      'info'
-    ],
-    // 自定义要显示的模块，并控制顺序
-    // keep only the modules you want and customize the order.
-    // can be used with hiddenModules together
-    visibleModules: [
-      'text',
-      'color',
-      'font',
-      'align',
-      'list',
-      'link',
-      'unlink',
-      'tabulation',
-      'image',
-      'hr',
-      'eraser',
-      'undo'
-    ]
-  })
   export default {
     props: [
       'article',
@@ -124,6 +59,10 @@
       this.getCategories().then(function (data) {
         that.categories = data['data']
       })
+      this.getUpToken().then(function (data) {
+        that.$store.commit('updateUpToken', data['uptoken'])
+        that.$store.commit('updateUpFilename')
+      })
     },
     mounted () {
       var that = this
@@ -140,12 +79,8 @@
       }
     },
     methods: {
-      updateContent (data) {
-        this.content = data
-        this.isEdited = true
-      },
       onClickCancel () {
-        if (this.isEdited) {
+        if (this.title.length > 0 || this.content.length > 0) {
           var that = this
           that.$confirm('确定取消编辑?')
             .then(function () {
@@ -186,9 +121,31 @@
       }
     },
     components: {
-      Editor
     }
   }
+//  var form = new FormData();
+//  form.append("token", "FFX5eQXCqq5bEIV0kg3syN7yF6EFYLaHY_xkrEFd:rfCXVoddR4K0Nt63DCMGQ-Laamc=:eyJzY29wZSI6Ind3dy1saXViYWljYWktbmV0IiwiZGVhZGxpbmUiOjE1MDQ3Nzg1NTN9");
+//  form.append("file", "touxiang.jpg");
+//  form.append("key", "asdasdyouadadsadasda.jpg");
+//
+//  var settings = {
+//    "async": true,
+//    "crossDomain": true,
+//    "url": "http://upload.qiniu.com/",
+//    "method": "POST",
+//    "headers": {
+//      "cache-control": "no-cache",
+//      "postman-token": "8d650bee-832f-130b-77e2-e89653ca8df6"
+//    },
+//    "processData": false,
+//    "contentType": false,
+//    "mimeType": "multipart/form-data",
+//    "data": form
+//  }
+//
+//  $.ajax(settings).done(function (response) {
+//    console.log(response);
+//  });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -237,6 +194,7 @@
 
   .modal-body {
     margin: -10px 0;
+    height: 350px;
   }
 
   .modal-default-button {

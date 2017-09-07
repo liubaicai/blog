@@ -4,8 +4,8 @@
 
 export default{
   install (Vue) {
-    Vue.prototype.$host = 'http://api.blog.liubaicai.net'
-    // Vue.prototype.$host = 'http://localhost:3000'
+    // Vue.prototype.$host = 'http://api.blog.liubaicai.net'
+    Vue.prototype.$host = 'http://localhost:3000'
     Vue.prototype.getArticles = function (page) {
       return this.$http.get(`${this.$host}/articles?page=${page || 1}&per_page=5`)
         .then(function (data) {
@@ -48,6 +48,14 @@ export default{
     }
     Vue.prototype.toLogin = function (pwdMd5) {
       return this.$http.get(`${this.$host}/configs/login?password=${pwdMd5}`)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.getUpToken = function () {
+      return this.$http.get(`${this.$host}/configs/uptoken?token=${Vue.cookie.get('admin_authorization')}`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body
