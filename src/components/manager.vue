@@ -4,10 +4,12 @@
       <li role="presentation" :class="{ active: isMArticle }"><a @click="clearTab();isMArticle = true">文章管理</a></li>
       <li role="presentation" :class="{ active: isMCategory }"><a @click="clearTab();isMCategory = true">分类管理</a></li>
       <li role="presentation" :class="{ active: isMLink }"><a @click="clearTab();isMLink = true">链接管理</a></li>
-      <li role="presentation" :class="{ active: isMSetting }"><a @click="clearTab();isMSetting = true">网站设置</a></li>
+      <li role="presentation" :class="{ active: isMConfig }"><a @click="clearTab();isMConfig = true">网站设置</a></li>
     </ul>
     <MArticle v-show="isMArticle"></MArticle>
     <MLink v-show="isMLink"></MLink>
+    <MConfig v-show="isMConfig"></MConfig>
+    <MCategory v-show="isMCategory"></MCategory>
   </div>
 </template>
 
@@ -18,7 +20,7 @@
           isMArticle: true,
           isMCategory: false,
           isMLink: false,
-          isMSetting: false
+          isMConfig: false
         }
       },
       methods: {
@@ -26,7 +28,7 @@
           this.isMArticle = false
           this.isMCategory = false
           this.isMLink = false
-          this.isMSetting = false
+          this.isMConfig = false
         }
       }
     }

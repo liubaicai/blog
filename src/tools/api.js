@@ -46,6 +46,31 @@ export default{
           }
         })
     }
+    Vue.prototype.toNewCategory = function (sendData) {
+      // sendData: {link: {title: '测试', url: 'ceshi', sort: 1}, token: Vue.cookie.get('admin_authorization')}
+      return this.$http.post(`${this.$host}/categories`, sendData)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.toEditCategory = function (id, sendData) {
+      return this.$http.put(`${this.$host}/categories/${id}`, sendData)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.toDeleteCategory = function (id) {
+      return this.$http.delete(`${this.$host}/categories/${id}?token=${Vue.cookie.get('admin_authorization')}`)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
     Vue.prototype.toLogin = function (pwdMd5) {
       return this.$http.get(`${this.$host}/configs/login?password=${pwdMd5}`)
         .then(function (data) {
@@ -107,6 +132,22 @@ export default{
     }
     Vue.prototype.toDeleteLink = function (id) {
       return this.$http.delete(`${this.$host}/links/${id}?token=${Vue.cookie.get('admin_authorization')}`)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.getConfigs = function () {
+      return this.$http.get(`${this.$host}/configs?token=${Vue.cookie.get('admin_authorization')}`)
+        .then(function (data) {
+          if (data.status === 200) {
+            return data.body
+          }
+        })
+    }
+    Vue.prototype.setConfig = function (id, configValue) {
+      return this.$http.put(`${this.$host}/configs/${id}?config_value=${configValue}&token=${Vue.cookie.get('admin_authorization')}`)
         .then(function (data) {
           if (data.status === 200) {
             return data.body

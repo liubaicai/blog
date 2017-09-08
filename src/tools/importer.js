@@ -35,6 +35,8 @@ import XEditor from '../components/section/x_editor.vue'
 
 import MArticle from '../components/section/m_article.vue'
 import MLink from '../components/section/m_link.vue'
+import MConfig from '../components/section/m_config.vue'
+import MCategory from '../components/section/m_category.vue'
 
 Vue.component('paginate', Paginate)
 Vue.component('PageHeader', PageHeader)
@@ -47,6 +49,8 @@ Vue.component('XEditor', XEditor)
 
 Vue.component('MArticle', MArticle)
 Vue.component('MLink', MLink)
+Vue.component('MConfig', MConfig)
+Vue.component('MCategory', MCategory)
 
 import 'font-awesome/css/font-awesome.css'
 import 'bootstrap/dist/css/bootstrap.css'
