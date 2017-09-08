@@ -29,7 +29,7 @@
       initComment: function () {
         if (this.gid) {
           var gitment = new Gitment({
-            id: this.gid,
+            id: `${this.gid}`,
             owner: 'liubaicai',
             repo: 'baicai_rails_blog',
             oauth: {
