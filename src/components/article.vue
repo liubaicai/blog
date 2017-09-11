@@ -5,7 +5,7 @@
       <div class="item-info">
         Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} | <span>{{getCategoryName(article.category)}}</span>
       </div>
-      <div class="item-content" v-html="article.text">{{article.text}}</div>
+      <div class="item-content" v-html="article.text" v-highlight>{{article.text}}</div>
     </div>
     <XComment :gid="article.id"></XComment>
   </div>

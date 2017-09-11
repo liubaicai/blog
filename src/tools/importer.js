@@ -20,9 +20,11 @@ Vue.use(Toast)
 import XConst from './const'
 import XUtils from './utils'
 import XApi from './api'
+import XDirectives from './directives'
 Vue.use(XConst)
 Vue.use(XUtils)
 Vue.use(XApi)
+Vue.use(XDirectives)
 
 import Paginate from 'vuejs-paginate'
 import PageHeader from '../components/section/page_header.vue'
