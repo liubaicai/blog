@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="blog-post">
-      <h1>{{article.title}}</h1>
+      <h1>{{article.title}}&nbsp;</h1>
       <div class="item-info">
         Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} | <span>{{getCategoryName(article.category)}}</span>
       </div>

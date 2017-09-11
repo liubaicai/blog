@@ -10,9 +10,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     links: [],
-    isLogin: false
+    isLogin: false,
+    articles: []
   },
   mutations: {
+    updateArticles (state, articles) {
+      state.articles = articles
+    },
     updateLoginStatus (state) {
       if (Vue.cookie.get('admin_authorization')) {
         state.isLogin = true

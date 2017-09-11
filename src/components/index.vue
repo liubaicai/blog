@@ -3,7 +3,7 @@
     <div id="post-container">
       <transition-group name="list" tag="p">
         <div v-for="article in articles" :key="article.id" class="blog-post">
-          <h1>{{article.title}}</h1>
+          <router-link :to="{name: 'Article', params: { id: article.id }}"><h1>{{article.title}}</h1></router-link>
           <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} | <span>{{article.category.name}}</span></div>
           <div class="item-content" v-html="article.text">{{article.text}}</div>
           <router-link :to="{name: 'Article', params: { id: article.id }}">Read More <i class="fa fa-angle-right"></i></router-link>
@@ -28,8 +28,12 @@
     data: function () {
       return {
         pageNo: 0,
-        pageCount: 1,
-        articles: []
+        pageCount: 1
+      }
+    },
+    computed: {
+      articles () {
+        return this.$store.state.articles
       }
     },
     created: function () {
@@ -37,9 +41,9 @@
       var that = this
       this.getArticles(this.$route.params.page || this.getUrlKey('page') || 1).then(function (data) {
         if (data['code'] === 200) {
-          that.articles = data['data']
           that.pageNo = (this.$route.params.page || this.getUrlKey('page') || 1) - 1
           that.pageCount = Math.ceil((data['total']) / (data['per_page']))
+          that.$store.commit('updateArticles', data['data'])
         } else {
           that.$alert(data['message'])
         }
@@ -50,9 +54,9 @@
         var that = this
         this.getArticles(to.params.page || this.getUrlKey('page') || 1).then(function (data) {
           if (data['code'] === 200) {
-            that.articles = data['data']
             that.pageNo = (to.params.page || this.getUrlKey('page') || 1) - 1
             that.pageCount = Math.ceil((data['total']) / (data['per_page']))
+            that.$store.commit('updateArticles', data['data'])
           } else {
             that.$alert(data['message'])
           }
