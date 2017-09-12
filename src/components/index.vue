@@ -5,7 +5,7 @@
         <div v-for="article in articles" :key="article.id" class="blog-post">
           <router-link :to="{name: 'Article', params: { id: article.id }}"><h1>{{article.title}}</h1></router-link>
           <div class="item-info">Posted by <span>{{$admin}}</span> on {{getTime(article.created_at)}} | <span>{{article.category.name}}</span></div>
-          <div class="item-content" v-html="article.text">{{article.text}}</div>
+          <div class="item-content" v-html="article.text" v-highlight>{{article.text}}</div>
           <router-link :to="{name: 'Article', params: { id: article.id }}">Read More <i class="fa fa-angle-right"></i></router-link>
         </div>
       </transition-group>
