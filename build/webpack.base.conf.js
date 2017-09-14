@@ -3,6 +3,7 @@ var fs = require('fs')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+require('babel-polyfill')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -10,7 +11,8 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: ["babel-polyfill", "./src/main.js"]
+    // app: './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,

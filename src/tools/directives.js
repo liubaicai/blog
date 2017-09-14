@@ -9,9 +9,13 @@ export default {
   install (Vue) {
     Vue.directive('highlight', function (el) {
       let blocks = el.querySelectorAll('pre')
-      blocks.forEach((block) => {
-        highlightJs.highlightBlock(block)
-      })
+      for (var i = 0; i < blocks.length; i++) {
+        highlightJs.highlightBlock(blocks[i])
+      }
+      // ie11不支持forEach
+      // blocks.forEach((block) => {
+      //   highlightJs.highlightBlock(block)
+      // })
     })
   }
 }
