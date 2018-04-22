@@ -11,11 +11,15 @@ export default new Vuex.Store({
   state: {
     links: [],
     isLogin: false,
-    articles: []
+    articles: [],
+    allArticles: []
   },
   mutations: {
     updateArticles (state, articles) {
       state.articles = articles
+    },
+    updateAllArticles (state, articles) {
+      state.allArticles = articles
     },
     updateLoginStatus (state) {
       if (Vue.cookie.get('admin_authorization')) {

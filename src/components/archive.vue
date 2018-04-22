@@ -19,7 +19,11 @@
     name: 'index',
     data: function () {
       return {
-        articles: []
+      }
+    },
+    computed: {
+      articles () {
+        return this.$store.state.allArticles
       }
     },
     created: function () {
@@ -27,7 +31,7 @@
       var that = this
       this.searchArticles(this.$route.params.s || '').then(function (data) {
         if (data['code'] === 200) {
-          that.articles = data['data']
+          that.$store.commit('updateAllArticles', data['data'])
         } else {
           that.$alert(data['message'])
         }

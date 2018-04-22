@@ -29,11 +29,15 @@
   export default {
     data: function () {
       return {
-        articles: [],
         isShowNewArticle: false,
         isShowEditArticle: false,
         editIndex: -1,
         editArticle: {}
+      }
+    },
+    computed: {
+      articles () {
+        return this.$store.state.allArticles
       }
     },
     created: function () {
@@ -41,7 +45,7 @@
       var that = this
       this.searchArticles(this.$route.params.s || '').then(function (data) {
         if (data['code'] === 200) {
-          that.articles = data['data']
+          that.$store.commit('updateAllArticles', data['data'])
         } else {
           that.$alert(data['message'])
         }
