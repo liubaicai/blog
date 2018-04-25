@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  const XEditor = () => import('./x_editor.vue')
   export default {
     data: function () {
       return {
@@ -79,6 +80,9 @@
       onUpdate (index, data) {
         this.articles.splice(index, 1, data)
       }
+    },
+    components: {
+      XEditor
     }
   }
 </script>

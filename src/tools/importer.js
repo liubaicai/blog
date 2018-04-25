@@ -32,13 +32,6 @@ import PageFooter from '../components/section/page_footer.vue'
 import PageSidebar from '../components/section/page_sidebar.vue'
 
 import XSearch from '../components/section/x_search.vue'
-import XComment from '../components/section/x_comment.vue'
-import XEditor from '../components/section/x_editor.vue'
-
-import MArticle from '../components/section/m_article.vue'
-import MLink from '../components/section/m_link.vue'
-import MConfig from '../components/section/m_config.vue'
-import MCategory from '../components/section/m_category.vue'
 
 Vue.component('paginate', Paginate)
 Vue.component('PageHeader', PageHeader)
@@ -46,13 +39,3 @@ Vue.component('PageFooter', PageFooter)
 Vue.component('PageSidebar', PageSidebar)
 
 Vue.component('XSearch', XSearch)
-Vue.component('XComment', XComment)
-Vue.component('XEditor', XEditor)
-
-Vue.component('MArticle', MArticle)
-Vue.component('MLink', MLink)
-Vue.component('MConfig', MConfig)
-Vue.component('MCategory', MCategory)
-
-import 'font-awesome/css/font-awesome.css'
-import 'bootstrap/dist/css/bootstrap.css'

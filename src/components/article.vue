@@ -12,8 +12,9 @@
 </template>
 
 <script>
+  const XComment = () => import('./section/x_comment.vue')
   export default {
-    name: 'article',
+    name: 'varticle',
     data: function () {
       return {
         links: [],
@@ -37,6 +38,9 @@
           return category.name
         }
       }
+    },
+    components: {
+      XComment
     }
   }
 </script>

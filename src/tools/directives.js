@@ -2,8 +2,8 @@
  * Created by baicai on 2017/9/11.
  */
 
-import highlightJs from 'highlight.js'
-import '../../node_modules/highlight.js/styles/vs.css'
+import highlightJs from '../../lib/highlight.js'
+import '../../lib/highlight.js/styles/vs.css'
 
 export default {
   install (Vue) {
