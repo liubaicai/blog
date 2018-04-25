@@ -16,14 +16,9 @@
 
 <script>
   export default {
-    name: 'index',
     data: function () {
       return {
-      }
-    },
-    computed: {
-      articles () {
-        return this.$store.state.allArticles
+        articles: []
       }
     },
     created: function () {
@@ -31,9 +26,9 @@
       var that = this
       this.searchArticles(this.$route.params.s || '').then(function (data) {
         if (data['code'] === 200) {
-          that.$store.commit('updateAllArticles', data['data'])
+          that.articles = data['data']
         } else {
-          that.$alert(data['message'])
+          alert(data['message'])
         }
       })
     },
@@ -44,7 +39,7 @@
           if (data['code'] === 200) {
             that.articles = data['data']
           } else {
-            that.$alert(data['message'])
+            alert(data['message'])
           }
         })
       }

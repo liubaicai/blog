@@ -24,7 +24,6 @@
 
 <script>
   export default {
-    name: 'index',
     data: function () {
       return {
         pageNo: 0,
@@ -45,7 +44,7 @@
           that.pageCount = Math.ceil((data['total']) / (data['per_page']))
           that.$store.commit('updateArticles', data['data'])
         } else {
-          that.$alert(data['message'])
+          alert(data['message'])
         }
       })
     },
@@ -58,7 +57,7 @@
             that.pageCount = Math.ceil((data['total']) / (data['per_page']))
             that.$store.commit('updateArticles', data['data'])
           } else {
-            that.$alert(data['message'])
+            alert(data['message'])
           }
         })
       }

@@ -10,14 +10,7 @@
 
       <ul class="list-group" style="margin-top: 20px;">
         <li class="list-group-item"><strong>管理|MANAGER</strong></li>
-        <template v-if="isAuthorization">
-          <!--<li @click="toPublish()" class="list-group-item">发表</li>-->
-          <li @click="toManager()" class="list-group-item">仪表盘</li>
-          <li @click="toLogout()" class="list-group-item">注销</li>
-        </template>
-        <template v-else>
-          <li @click="toLogin()" class="list-group-item">登录</li>
-        </template>
+        <li @click="navTo('http://blog.api.liubaicai.net/')" class="list-group-item">仪表盘</li>
       </ul>
     </div>
   </div>
@@ -33,9 +26,6 @@
     computed: {
       links () {
         return this.$store.state.links
-      },
-      isAuthorization () {
-        return this.$store.state.isLogin
       }
     },
     created: function () {
@@ -44,10 +34,9 @@
         if (data['code'] === 200) {
           that.$store.commit('linkInit', data['data'])
         } else {
-          that.$alert(data['message'])
+          alert(data['message'])
         }
       })
-      that.$store.commit('updateLoginStatus')
     },
     methods: {
       onSearchEvent (data) {
@@ -55,16 +44,6 @@
       },
       navTo (url) {
         window.open(url)
-      },
-      toLogin () {
-        this.$router.push({name: 'Login'})
-      },
-      toLogout () {
-        this.$cookie.delete('admin_authorization')
-        this.$router.go(0)
-      },
-      toManager () {
-        this.$router.push({name: 'Manager'})
       }
     }
   }

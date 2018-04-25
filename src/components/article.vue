@@ -13,7 +13,6 @@
 
 <script>
   export default {
-    name: 'article',
     data: function () {
       return {
         links: [],
@@ -22,12 +21,17 @@
     },
     created: function () {
       var that = this
-      this.getArticle(this.$route.params.id || 1).then(function (data) {
-        if (data['code'] === 200) {
-          that.article = data['data']
-          document.title = that.article['title']
+      this.getArticle(this.$route.params.id || 1).then(function (response) {
+        if (response.status === 200) {
+          var data = response.body
+          if (data['code'] === 200) {
+            that.article = data['data']
+            document.title = that.article['title']
+          } else {
+            alert(data['message'])
+          }
         } else {
-          that.$alert(data['message'])
+          console.log(response)
         }
       })
     },

@@ -6,10 +6,7 @@ Vue.use(Router)
 import Index from '@/components/index'
 import Article from '@/components/article'
 import Archive from '@/components/archive'
-import Login from '@/components/login'
 import NotFound from '@/components/r_404'
-
-import Manager from '@/components/manager'
 
 export default new Router({
   mode: 'history',
@@ -40,25 +37,13 @@ export default new Router({
       component: Archive
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/manager',
-      name: 'Manager',
-      component: Manager,
-      beforeEnter: (to, from, next) => {
-        if (Vue.cookie.get('admin_authorization')) {
-          next()
-        } else {
-          next({ name: 'Login' })
-        }
-      }
+      path: '/404',
+      name: 'NotFound',
+      component: NotFound
     },
     {
       path: '*',
-      component: NotFound
+      redirect: '/404'
     }
   ],
   scrollBehavior (to, from, savedPosition) {
