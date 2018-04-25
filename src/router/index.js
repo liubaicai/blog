@@ -9,7 +9,6 @@ import Archive from '@/components/archive'
 import NotFound from '@/components/r_404'
 
 export default new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
