@@ -31,7 +31,7 @@
           var gitment = new Gitment({
             id: `${this.gid}`,
             owner: 'liubaicai',
-            repo: 'baicai_rails_blog',
+            repo: 'baicai_vue_blog',
             oauth: {
               client_id: 'b202d06a4c5b204e86f6',
               client_secret: '2b0e1be40a33bb2f16b0d909a9c70ee6eb0bdea1'
