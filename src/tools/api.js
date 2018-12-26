@@ -4,7 +4,7 @@
 
 export default{
   install (Vue) {
-    Vue.prototype.$host = '//api.liubaicai.net'
+    Vue.prototype.$host = '//api.liubaicai.net/blog'
     // Vue.prototype.$host = 'http://localhost:3000'
     Vue.prototype.getArticles = function (page) {
       return this.$http.get(`${this.$host}/articles?page=${page || 1}&per_page=5`)
