@@ -57,7 +57,7 @@
       methods: {
         onNewLinkClick () {
           var that = this
-          var sendData = {link: {title: '标题', url: '地址', sort: 99}, token: this.$cookie.get('admin_authorization')}
+          var sendData = {link: {title: '标题', url: '地址', sort: 99}}
           this.toNewLink(sendData).then(function (data) {
             if (data['code'] === 200) {
               var result = data['data']
@@ -69,7 +69,7 @@
         },
         onEditLinkSubmit (index, link) {
           var that = this
-          var sendData = {link: {id: link.id, title: link.title, url: link.url, sort: link.sort}, token: this.$cookie.get('admin_authorization')}
+          var sendData = {link: {id: link.id, title: link.title, url: link.url, sort: link.sort}}
           this.toEditLink(link.id, sendData).then(function (data) {
             if (data['code'] === 200) {
               var result = data['data']

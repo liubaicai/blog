@@ -115,7 +115,7 @@
       onClickSubmit () {
         var that = this
         if (that.article && that.article.id >= 0) {
-          var articleEdit = {article: {id: that.article.id, title: that.title, text: that.content, category_id: that.categoryId}, token: that.$cookie.get('admin_authorization')}
+          var articleEdit = {article: {id: that.article.id, title: that.title, text: that.content, category_id: that.categoryId}}
           this.toEdit(that.article.id, articleEdit).then(function (data) {
             if (data['code'] === 200) {
               that.errorMessage = ''
@@ -126,7 +126,7 @@
             }
           })
         } else {
-          var articleNew = {article: {title: that.title, text: that.content, category_id: that.categoryId}, token: that.$cookie.get('admin_authorization')}
+          var articleNew = {article: {title: that.title, text: that.content, category_id: that.categoryId}}
           this.toPublish(articleNew).then(function (data) {
             if (data['code'] === 200) {
               that.errorMessage = ''

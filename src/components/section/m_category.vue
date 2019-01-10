@@ -40,7 +40,7 @@
     methods: {
       onNewCategoryClick () {
         var that = this
-        var sendData = {category: {name: '标题'}, token: this.$cookie.get('admin_authorization')}
+        var sendData = {category: {name: '标题'}}
         this.toNewCategory(sendData).then(function (data) {
           if (data['code'] === 200) {
             that.categories.push(data['data'])
@@ -51,7 +51,7 @@
       },
       onEditCategorySubmit (index, category) {
         var that = this
-        var sendData = {category: {id: category.id, name: category.name}, token: this.$cookie.get('admin_authorization')}
+        var sendData = {category: {id: category.id, name: category.name}}
         this.toEditCategory(category.id, sendData).then(function (data) {
           if (data['code'] === 200) {
             that.categories.splice(index, 1, data['data'])

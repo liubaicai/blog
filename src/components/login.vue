@@ -42,10 +42,10 @@
           this.errorMessage = 'input password'
         } else {
           var that = this
-          this.toLogin(that.md5(that.password)).then(function (data) {
+          this.toLogin(that.password).then(function (data) {
             if (data['code'] === 200) {
               that.errorMessage = ''
-              that.$cookie.set('admin_authorization', data['data']['token'], 30)
+              that.$cookie.set('user_token', data['data']['token'], 30)
               that.$router.push({name: 'Manager'})
               that.$store.commit('updateLoginStatus')
             } else {

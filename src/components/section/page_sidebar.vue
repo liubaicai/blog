@@ -60,7 +60,7 @@
         this.$router.push({name: 'Login'})
       },
       toLogout () {
-        this.$cookie.delete('admin_authorization')
+        this.$cookie.delete('user_token')
         this.$router.go(0)
       },
       toManager () {

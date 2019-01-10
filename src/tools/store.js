@@ -22,7 +22,7 @@ export default new Vuex.Store({
       state.allArticles = articles
     },
     updateLoginStatus (state) {
-      if (Vue.cookie.get('admin_authorization')) {
+      if (Vue.cookie.get('user_token')) {
         state.isLogin = true
       } else {
         state.isLogin = false
