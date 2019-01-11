@@ -1,6 +1,6 @@
 # 菜园子-刘白菜的个人博客
 
-api服务项目 => [这里](https://github.com/liubaicai/baicai_rails_blog)
+api服务 => [项目](https://github.com/liubaicai/api_service)
 
 > A Vue.js project
 
