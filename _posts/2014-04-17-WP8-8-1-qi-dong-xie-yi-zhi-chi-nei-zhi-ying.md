@@ -1,0 +1,183 @@
+---
+layout:     post
+title:      "WP8/8.1启动协议支持的内置应用"
+date:       2014-04-17 18:00:15 UTC
+author:     "baicai"
+catalog: true
+tags:
+    - 存档
+---
+
+<p>
+	<strong><span style="font-family:comic sans ms,cursive;">WP8.1商店评分:</span></strong>
+</p>
+
+<p>
+	<strong><span style="font-family:comic sans ms,cursive;">await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));</span></strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="font-family:comic sans ms,cursive;">URI scheme names reserved for built-in apps</span>
+</p>
+
+<p>
+	<span style="font-family:comic sans ms,cursive;"><span class="label">Applies to:</span> Windows Phone 8 and Windows Phone Silverlight 8.1 only</span>
+</p>
+
+<p>
+	<span style="font-family:comic sans ms,cursive;">Windows&nbsp;Phone reserves the following URI scheme names for built-in apps.</span>
+</p>
+
+<div class="caption">
+	&nbsp;
+</div>
+
+<div class="tableSection">
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<p>
+						bing.
+					</p>
+				</td>
+				<td>
+					<p>
+						ms-settings-emailandaccounts.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						callto.
+					</p>
+				</td>
+				<td>
+					<p>
+						ms-settings-location.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						dtmf.
+					</p>
+				</td>
+				<td>
+					<p>
+						ms-settings-lock.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						http.
+					</p>
+				</td>
+				<td>
+					<p>
+						ms-settings-wifi.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						https.
+					</p>
+				</td>
+				<td>
+					<p>
+						ms-word.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						mailto.
+					</p>
+				</td>
+				<td>
+					<p>
+						office.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						maps.
+					</p>
+				</td>
+				<td>
+					<p>
+						onenote.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						ms-excel.
+					</p>
+				</td>
+				<td>
+					<p>
+						tel.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						ms-powerpoint.
+					</p>
+				</td>
+				<td>
+					<p>
+						wallet.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						ms-settings-airplanemode.
+					</p>
+				</td>
+				<td>
+					<p>
+						xbls.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						ms-settings-bluetooth.
+					</p>
+				</td>
+				<td>
+					<p>
+						zune.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						ms-settings-cellular.
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

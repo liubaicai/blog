@@ -1,0 +1,68 @@
+---
+layout:     post
+title:      "Ruby用Nokogiri解析提取HTML"
+date:       2015-12-05 02:45:28 UTC
+author:     "baicai"
+catalog: true
+tags:
+    - 存档
+---
+
+文章介绍了如何使用Nokogiri解析HTML，并提取其中的内容。
+<h2>Nokogiri</h2>
+Nokogiri是一个能快速解析html和xml的gem库
+<pre class="lang:sh decode:true ">gem install nokogiri</pre>
+<pre class="lang:ruby decode:true ">require 'nokogiri'</pre>
+打开一个页面可以有多种方法
+<pre class="lang:ruby decode:true ">require 'nokogiri'
+require 'open-uri'
+require 'restclient'
+
+page = Nokogiri::HTML(open("index.html"))   
+page = Nokogiri::HTML(open("http://en.wikipedia.org/"))  
+page = Nokogiri::HTML("&lt;html&gt;xxxxxxxxx&lt;/html&gt;")  
+page = Nokogiri::HTML(RestClient.get("http://en.wikipedia.org/"))</pre>
+<h2>Nokogiri 和 CSS selectors</h2>
+<img class="alignnone size-full wp-image-642" src="http://www.liubaicai.net/wp-content/uploads/2015/12/1.png" alt="1" width="882" height="817" /> <img class="alignnone size-full wp-image-643" src="http://www.liubaicai.net/wp-content/uploads/2015/12/2.png" alt="2" width="881" height="591" /> <img class="alignnone size-full wp-image-644" src="http://www.liubaicai.net/wp-content/uploads/2015/12/3.png" alt="3" width="882" height="963" />
+
+一些常见用法
+<pre class="lang:ruby decode:true">page = Nokogiri::HTML(open(PAGE_URL))
+puts page.css("title")[0].name   # =&gt; title
+puts page.css("title")[0].text   # =&gt; My webpage
+puts page.css("title").text   # =&gt; My webpage
+
+&lt;a href="http://www.google.com"&gt;Click here&lt;/a&gt;
+# set URL to point to where the page exists
+page = Nokogiri::HTML(open(PAGE_URL))
+links = page.css("a")
+puts links.length   # =&gt; 6
+puts links[0].text   # =&gt; Click here
+puts links[0]["href"] # =&gt; http://www.google.com
+
+page = Nokogiri::HTML(open(PAGE_URL))
+news_links = page.css("a").select{|link| link['data-category'] == "news"}
+news_links.each{|link| puts link['href'] }
+#=&gt;   http://reddit.com
+#=&gt;   http://www.nytimes.com        
+puts news_links.class   #=&gt;   Array 
+
+news_links = page.css("a[data-category=news]")
+news_links.each{|link| puts link['href']}
+#=&gt;   http://reddit.com
+#=&gt;   http://www.nytimes.com
+puts news_links.class   #=&gt;   Nokogiri::XML::NodeSet   
+
+page.css('p').css("a[data-category=news]").css("strong")</pre>
+#the_id_name_here
+.the_classname_here
+
+.用来查找class
+
+#用来查找id
+
+最终结果可能是这样：
+<pre class="lang:ruby decode:true ">doc = Nokogiri::HTML(open("http://www.liubaicai.net/archives/573.html"))
+title = doc.css('h1.header-post-title-class').first.content
+content = doc.css('div#content').first
+puts content</pre>
+&nbsp;

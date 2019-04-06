@@ -1,0 +1,49 @@
+---
+layout:     post
+title:      "国内GEM源设置"
+date:       2015-11-09 14:42:44 UTC
+author:     "baicai"
+catalog: true
+tags:
+    - 存档
+---
+
+<h1>RubyChina源&lt;/h1>
+<p class="media-heading">时过境迁，曾经业界良心的淘宝源终于可能要挂了</p>
+<a href="https://ruby-china.org/topics/29250">https://ruby-china.org/topics/29250</a>
+<pre class="lang:sh decode:true">$ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
+$ gem sources -l
+https://gems.ruby-china.org
+# 确保只有 gems.ruby-china.org</pre>
+<p class="media-heading">================================</p>
+
+<h1 class="media-heading">无需更改 Gemfile，让 bundle 使用淘宝源&lt;/h1>
+大家都知道 Gemfile 中可以指定源:
+<pre class="lang:default decode:true"># Gemfile:
+source 'https://ruby.taobao.org'</pre>
+然而有时候会带来些烦恼:
+<ul>
+	<li>自己做的开源项目，Gemfile 指定了用淘宝源，结果老外 git clone 过去用，发现杯具了&lt;/li>
+	<li>需要国内、国外都部署，Gemfile 怎么写？</li>
+</ul>
+<h3 id="我今天知道，有个更方便的方法：&quot;>我今天知道，有个更方便的方法：&lt;/h3>
+<pre class="lang:default decode:true"># Gemfile: 保持官方源不改
+source 'https://rubygems.org'</pre>
+命令行中运行:
+<pre class="lang:default decode:true  ">bundle config 'mirror.https://rubygems.org' 'https://ruby.taobao.org'</pre>
+配置全局有效，所以只需要运行一次，新项目（例如 <code>rails new</code>）都不用关心这个问题了
+
+================================
+<h1>淘宝源设置&lt;/h1>
+http://ruby.taobao.org
+gem sources --remove https://rubygems.org/
+gem sources -a https://ruby.taobao.org/
+gem sources -l
+<h3><a href="http://congteng.iteye.com/blog/1214116">rubygems在ubuntu下的升级</a></h3>
+Ruby代码
+
+sudo gem install rubygems-update
+
+sudo update_rubygems
+
+sudo gem update --system
