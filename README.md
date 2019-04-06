@@ -1,32 +1,9 @@
-# 菜园子-刘白菜的个人博客
+# HuxBlog Boilerplate
 
-api服务 => [项目](https://github.com/liubaicai/api_service)
+##### This is the boilerplate of [Hux Blog](https://github.com/Huxpro/huxpro.github.io), all documents is over there!
 
-> A Vue.js project
+#### [View Boilerplate &rarr;](http://huangxuan.me/huxblog-boilerplate/)
 
-## Build Setup
+#### [View Live Hux Blog &rarr;](http://huangxuan.me)
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## If you like Hux Blog, Please star [huxpro.github.io repo](https://github.com/Huxpro/huxpro.github.io) instead of this! Thank you!
