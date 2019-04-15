@@ -5,7 +5,7 @@ date:       2019-04-07 22:50:11 UTC
 author:     "baicai"
 catalog: true
 tags:
-    - NODEJS
+    - nodejs
 ---
 
 `export npm_config_python=/usr/bin/python;yarn`

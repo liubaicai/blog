@@ -3,7 +3,9 @@ layout: post
 title: 测试环境配置Nginx支持Https
 date: 2019-04-15 11:28:25 +0800
 tags:
-     - nginx https
+     - nginx
+     - https
+     - 服务器
 author: baicai
 catalog: true
 ---
