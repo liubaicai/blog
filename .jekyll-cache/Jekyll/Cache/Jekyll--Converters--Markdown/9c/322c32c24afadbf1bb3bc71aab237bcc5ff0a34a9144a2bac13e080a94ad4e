@@ -1,0 +1,217 @@
+I"�8<p><b>1.<span><span>            </span></span><span>文件夾監控（監測文件夾中的文件動態）：&lt;/span&gt;<br />
+<br />
+<img src="mhtml:file://C:\Users\shuai\Desktop\(WinForm)文件夹状态监控,最小化到托盘,开机自启动Windows开发 - 菜园子 - Powered by phpwind.mht!http://common.cnblogs.com/images/copycode.gif" border="0" />&lt;/b&gt;    <span style="color:#008000;">//</span><span style="color:#008000;">MSDN上的例子</span><span style="color:#008000;"><br />
+</span>    <span style="color:#0000FF;">public</span> <span style="color:#0000FF;">class</span>       Watcher<br />
+<br />
+    {<br />
+<br />
+<br />
+<br />
+        <span style="color:#0000FF;">public</span> <span style="color:#0000FF;">static</span>       <span style="color:#0000FF;">void</span>       Main()<br />
+<br />
+        {<br />
+<br />
+            Run();<br />
+<br />
+<br />
+<br />
+        }<br />
+<br />
+<br />
+<br />
+        [PermissionSet(SecurityAction.Demand,       Name = <span style="color:#800000;">”</span><span style="color:#800000;">FullTrust</span><span style="color:#800000;">”</span>)]<br />
+<br />
+        <span style="color:#0000FF;">public</span> <span style="color:#0000FF;">static</span>       <span style="color:#0000FF;">void</span>       Run()<br />
+<br />
+        {<br />
+<br />
+            <span style="color:#0000FF;">string</span>[] args =       System.Environment.GetCommandLineArgs();<br />
+<br />
+<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       If a directory is not specified, exit program.</span><span style="color:#008000;"><br />
+</span><br />
+            <span style="color:#0000FF;">if</span> (args.Length != <span style="color:#800080;">2</span>)<br />
+<br />
+            {<br />
+<br />
+                <span style="color:#008000;">//</span><span style="color:#008000;">       Display the proper way to call the program.</span><span style="color:#008000;"><br />
+</span><br />
+                Console.WriteLine(<span style="color:#800000;">”</span><span style="color:#800000;">Usage:       Watcher.exe (directory)</span><span style="color:#800000;">”</span>);<br />
+<br />
+                <span style="color:#0000FF;">return</span>;<br />
+<br />
+            }<br />
+<br />
+<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       Create a new FileSystemWatcher and set its properties.</span><span style="color:#008000;"><br />
+</span><br />
+            FileSystemWatcher       watcher = <span style="color:#0000FF;">new</span>       FileSystemWatcher();<br />
+<br />
+            watcher.Path       = args[<span style="color:#800080;">1</span>];<br />
+<br />
+            <span style="color:#008000;">/*</span><span style="color:#008000;">       Watch for changes in LastAccess and LastWrite times, and        <br />
+<br />
+                     the renaming of files or directories. </span><span style="color:#008000;">*/</span><br />
+<br />
+            watcher.NotifyFilter       = NotifyFilters.LastAccess |       NotifyFilters.LastWrite<br />
+<br />
+                     | NotifyFilters.FileName |       NotifyFilters.DirectoryName;<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       Only watch text files.</span><span style="color:#008000;"><br />
+</span><br />
+            watcher.Filter       = <span style="color:#800000;">”</span><span style="color:#800000;">*.txt</span><span style="color:#800000;">”</span>;<br />
+<br />
+<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       Add event handlers.</span><span style="color:#008000;"><br />
+</span><br />
+            watcher.Changed       += <span style="color:#0000FF;">new</span>       FileSystemEventHandler(OnChanged);<br />
+<br />
+            watcher.Created       += <span style="color:#0000FF;">new</span>       FileSystemEventHandler(OnChanged);<br />
+<br />
+            watcher.Deleted       += <span style="color:#0000FF;">new</span>       FileSystemEventHandler(OnChanged);<br />
+<br />
+            watcher.Renamed       += <span style="color:#0000FF;">new</span>       RenamedEventHandler(OnRenamed);<br />
+<br />
+<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       Begin watching.</span><span style="color:#008000;"><br />
+</span><br />
+            watcher.EnableRaisingEvents       = <span style="color:#0000FF;">true</span>;<br />
+<br />
+<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       Wait for the user to quit the program.</span><span style="color:#008000;"><br />
+</span><br />
+            Console.WriteLine(<span style="color:#800000;">”</span><span style="color:#800000;">Press       'q' to quit the sample.</span><span style="color:#800000;">”</span>);<br />
+<br />
+            <span style="color:#0000FF;">while</span> (Console.Read() != <span style="color:#800000;">’</span><span style="color:#800000;">q</span><span style="color:#800000;">’</span>)       ;<br />
+<br />
+        }<br />
+<br />
+<br />
+<br />
+        <span style="color:#008000;">//</span><span style="color:#008000;">       Define the event handlers.</span><span style="color:#008000;"><br />
+</span><br />
+        <span style="color:#0000FF;">private</span> <span style="color:#0000FF;">static</span>       <span style="color:#0000FF;">void</span> OnChanged(<span style="color:#0000FF;">object</span>       source, FileSystemEventArgs       e)<br />
+<br />
+        {<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       Specify what is done when a file is changed, created, or       deleted.</span><span style="color:#008000;"><br />
+</span><br />
+            Console.WriteLine(<span style="color:#800000;">”</span><span style="color:#800000;">File:        </span><span style="color:#800000;">”</span> + e.FullPath + <span style="color:#800000;">”</span> <span style="color:#800000;">”</span>       +       e.ChangeType);<br />
+<br />
+        }<br />
+<br />
+<br />
+<br />
+        <span style="color:#0000FF;">private</span> <span style="color:#0000FF;">static</span>       <span style="color:#0000FF;">void</span> OnRenamed(<span style="color:#0000FF;">object</span>       source, RenamedEventArgs       e)<br />
+<br />
+        {<br />
+<br />
+            <span style="color:#008000;">//</span><span style="color:#008000;">       Specify what is done when a file is renamed.</span><span style="color:#008000;"><br />
+</span><br />
+            Console.WriteLine(<span style="color:#800000;">”</span><span style="color:#800000;">File:       {0} renamed to {1}</span><span style="color:#800000;">”</span>,       e.OldFullPath,       e.FullPath);<br />
+<br />
+        }<br />
+<br />
+    }<br />
+<img src="mhtml:file://C:\Users\shuai\Desktop\(WinForm)文件夹状态监控,最小化到托盘,开机自启动Windows开发 - 菜园子 - Powered by phpwind.mht!http://common.cnblogs.com/images/copycode.gif" border="0" /><br />
+<br />
+<b>　　2.<span><span>     </span></span><span>最小化到托盤功能：</span></b><br />
+<span>首先給主界面添加一個&lt;/span&gt;notifyIcon<span>控件，給它的</span>Icon<span>添加一個圖標，不添加圖標的話不會在托盤顯示，然後給主界面的</span>SizeChanged<span>事件注冊一個方法，在方法中將主界面隱藏:</span><br />
+<br />
+<br />
+<img src="mhtml:file://C:\Users\shuai\Desktop\(WinForm)文件夹状态监控,最小化到托盘,开机自启动Windows开发 - 菜园子 - Powered by phpwind.mht!http://common.cnblogs.com/images/copycode.gif" border="0" />        <span style="color:#0000FF;">void</span>       frmMain_SizeChanged(<span style="color:#0000FF;">object</span>       sender, EventArgs       e)<br />
+<br />
+        {<br />
+<br />
+            <span style="color:#0000FF;">if</span> (<span style="color:#0000FF;">this</span>.WindowState       == FormWindowState.Minimized)       {<br />
+<br />
+                <span style="color:#0000FF;">this</span>.Hide();<br />
+<br />
+            }<br />
+<br />
+        }<br />
+<img src="mhtml:file://C:\Users\shuai\Desktop\(WinForm)文件夹状态监控,最小化到托盘,开机自启动Windows开发 - 菜园子 - Powered by phpwind.mht!http://common.cnblogs.com/images/copycode.gif" border="0" /><br />
+<span><span>然後給&lt;/span&gt;notifyIcon<span>的單擊或者雙擊事件添加一個方法，讓鼠標單擊或者雙擊托盤圖標的時候可以將主界面窗口還原:</span></span><br />
+<br />
+<br />
+<img src="mhtml:file://C:\Users\shuai\Desktop\(WinForm)文件夹状态监控,最小化到托盘,开机自启动Windows开发 - 菜园子 - Powered by phpwind.mht!http://common.cnblogs.com/images/copycode.gif" border="0" />        <span style="color:#0000FF;">private</span>       <span style="color:#0000FF;">void</span>       notifyIcon_MouseDoubleClick(<span style="color:#0000FF;">object</span> sender, MouseEventArgs       e)<br />
+<br />
+        {<br />
+<br />
+            <span style="color:#0000FF;">this</span>.Visible = <span style="color:#0000FF;">true</span>;<br />
+<br />
+            <span style="color:#0000FF;">this</span>.WindowState =       FormWindowState.Normal;<br />
+<br />
+        }<br />
+<img src="mhtml:file://C:\Users\shuai\Desktop\(WinForm)文件夹状态监控,最小化到托盘,开机自启动Windows开发 - 菜园子 - Powered by phpwind.mht!http://common.cnblogs.com/images/copycode.gif" border="0" /><br />
+<b><span><span><span>3.</span><span>讓程序開機自動啟動的方法（編輯注冊表）&lt;/span&gt;</span></span>&lt;/b&gt;<br />
+<br />
+<img src="mhtml:file://C:\Users\shuai\Desktop\(WinForm)文件夹状态监控,最小化到托盘,开机自启动Windows开发 - 菜园子 - Powered by phpwind.mht!http://common.cnblogs.com/images/copycode.gif" border="0" />        <span style="color:#0000FF;">private</span>       <span style="color:#0000FF;">void</span>       chbStartup_CheckedChanged(<span style="color:#0000FF;">object</span> sender, EventArgs       e)<br />
+<br />
+        {<br />
+<br />
+            <span style="color:#0000FF;">if</span> (<span style="color:#0000FF;">this</span>.chbStartup.Checked)<br />
+<br />
+            {<br />
+<br />
+                <span style="color:#0000FF;">try</span><br />
+<br />
+                {<br />
+<br />
+                    <span style="color:#0000FF;">string</span> startupPath =       Application.ExecutablePath;<br />
+<br />
+                    RegistryKey       local =       Registry.LocalMachine;<br />
+<br />
+                    RegistryKey       run = local.CreateSubKey(<span style="color:#800000;">@”</span><span style="color:#800000;">SOFTWARE\Microsoft\Windows\CurrentVersion\Run</span><span style="color:#800000;">”</span>);<br />
+<br />
+                    run.SetValue(<span style="color:#800000;">”</span><span style="color:#800000;">FolderWatcher</span><span style="color:#800000;">”</span>,       startupPath);<br />
+<br />
+                    local.Close();<br />
+<br />
+                }<br />
+<br />
+                <span style="color:#0000FF;">catch</span> (Exception       ex)<br />
+<br />
+                {<br />
+<br />
+                    MessageBox.Show(<span style="color:#800000;">”</span><span style="color:#800000;">開機啟動設置異常：&lt;/span&gt;<span style="color:#800000;">”</span> +        ex.Message);<br />
+<br />
+                }<br />
+<br />
+            }<br />
+<br />
+            <span style="color:#0000FF;">else</span>       {<br />
+<br />
+                <span style="color:#0000FF;">try</span><br />
+<br />
+                {<br />
+<br />
+                    <span style="color:#0000FF;">string</span> startupPath =       Application.ExecutablePath;<br />
+<br />
+                    RegistryKey       local =       Registry.LocalMachine;<br />
+<br />
+                    RegistryKey       run = local.CreateSubKey(<span style="color:#800000;">@”</span><span style="color:#800000;">SOFTWARE\Microsoft\Windows\CurrentVersion\Run</span><span style="color:#800000;">”</span>);<br />
+<br />
+                    run.DeleteValue(<span style="color:#800000;">”</span><span style="color:#800000;">FolderWatcher</span><span style="color:#800000;">”</span>);<br />
+<br />
+                    local.Close();<br />
+<br />
+                }<br />
+<br />
+                <span style="color:#0000FF;">catch</span> (Exception       ex)<br />
+<br />
+                {<br />
+<br />
+                    MessageBox.Show(<span style="color:#800000;">”</span><span style="color:#800000;">開機啟動設置異常：&lt;/span&gt;<span style="color:#800000;">”</span> +        ex.Message);<br />
+<br />
+                }<br />
+<br />
+            }<br />
+<br />
+        }<br /></span></span></span></b></span></span></span></b></p>
+:ET

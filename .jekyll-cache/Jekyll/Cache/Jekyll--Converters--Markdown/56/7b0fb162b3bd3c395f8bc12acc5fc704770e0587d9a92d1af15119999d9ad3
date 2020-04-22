@@ -1,0 +1,259 @@
+I"7!<p>
+	xaml中添加:
+</p>
+
+<pre class="brush:xml;">
+        &lt;ViewportControl x:Name="viewport" DoubleTap="OnDoubleTap"
+                ManipulationStarted="OnManipulationStarted" ManipulationDelta="OnManipulationDelta"  
+                             ManipulationCompleted="OnManipulationCompleted" ViewportChanged="viewport_ViewportChanged"&gt;
+            &lt;Canvas x:Name="canvas"&gt;
+                &lt;Image x:Name="image"  
+                            RenderTransformOrigin="0,0" CacheMode="BitmapCache"
+                           ImageOpened="OnImageOpened"&gt;
+                    &lt;Image.RenderTransform&gt;
+                        &lt;ScaleTransform x:Name="xform"/&gt;
+                    &lt;/Image.RenderTransform&gt;
+                &lt;/Image&gt;
+            &lt;/Canvas&gt;
+        &lt;/ViewportControl&gt;</pre>
+
+<p>
+	cs中添加:
+</p>
+
+<pre class="brush:csharp;">
+namespace ImageExtend
+{
+    public partial class ZoomImage : UserControl
+    {
+        public static readonly DependencyProperty SourceProperty
+            = DependencyProperty.Register("Source", typeof(ImageSource), typeof(ZoomImage), new PropertyMetadata(OnImageSourceChanged));
+        private static void OnImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d != null &amp;&amp; d is ZoomImage)
+            {
+                (d as ZoomImage).SetImage((ImageSource)e.NewValue);
+            }
+        }
+        public ImageSource Source
+        {
+            get
+            {
+                return (ImageSource)GetValue(SourceProperty);
+            }
+            set
+            {
+                SetValue(SourceProperty, value);
+            }
+        }
+
+        const double MaxScale = 10;
+
+        double _scale = 1.0;
+        double _minScale;
+        double _coercedScale;
+        double _originalScale;
+
+        Size _viewportSize;
+        bool _pinching;
+        Point _screenMidpoint;
+        Point _relativeMidpoint;
+
+        BitmapImage _bitmap;
+
+
+        public ZoomImage()
+        {
+            InitializeComponent();
+            this.Loaded += ZoomImage_Loaded;
+        }
+
+        void ZoomImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Source != null)
+            {
+                SetImage(Source);
+            }
+        }
+
+        void SetImage(ImageSource img)
+        {
+            image.Source = img;
+        }
+
+        /// &lt;summary&gt; 
+        /// Either the user has manipulated the image or the size of the viewport has changed. We only 
+        /// care about the size. 
+        /// &lt;/summary&gt; 
+        void viewport_ViewportChanged(object sender, System.Windows.Controls.Primitives.ViewportChangedEventArgs e)
+        {
+            Size newSize = new Size(viewport.Viewport.Width, viewport.Viewport.Height);
+            if (newSize != _viewportSize)
+            {
+                _viewportSize = newSize;
+                CoerceScale(true);
+                ResizeImage(false);
+            }
+        }
+
+        /// &lt;summary&gt; 
+        /// Handler for the ManipulationStarted event. Set initial state in case 
+        /// it becomes a pinch later. 
+        /// &lt;/summary&gt; 
+        void OnManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            _pinching = false;
+            _originalScale = _scale;
+        }
+
+        /// &lt;summary&gt; 
+        /// Handler for the ManipulationDelta event. It may or may not be a pinch. If it is not a  
+        /// pinch, the ViewportControl will take care of it. 
+        /// &lt;/summary&gt; 
+        /// &lt;param name="sender"&gt;&lt;/param&gt; 
+        /// &lt;param name="e"&gt;&lt;/param&gt; 
+        void OnManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        {
+            if (e.PinchManipulation != null)
+            {
+                e.Handled = true;
+
+                if (!_pinching)
+                {
+                    _pinching = true;
+                    Point center = e.PinchManipulation.Original.Center;
+                    _relativeMidpoint = new Point(center.X / image.ActualWidth, center.Y / image.ActualHeight);
+
+                    var xform = image.TransformToVisual(viewport);
+                    _screenMidpoint = xform.Transform(center);
+                }
+
+                _scale = _originalScale * e.PinchManipulation.CumulativeScale;
+
+                CoerceScale(false);
+                ResizeImage(false);
+            }
+            else if (_pinching)
+            {
+                _pinching = false;
+                _originalScale = _scale = _coercedScale;
+            }
+        }
+
+        /// &lt;summary&gt; 
+        /// The manipulation has completed (no touch points anymore) so reset state. 
+        /// &lt;/summary&gt; 
+        void OnManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        {
+            _pinching = false;
+            _scale = _coercedScale;
+        }
+
+
+        /// &lt;summary&gt; 
+        /// When a new image is opened, set its initial scale. 
+        /// &lt;/summary&gt; 
+        void OnImageOpened(object sender, RoutedEventArgs e)
+        {
+            _bitmap = (BitmapImage)image.Source;
+
+            // Set scale to the minimum, and then save it. 
+            _scale = 0;
+            CoerceScale(true);
+            _scale = _coercedScale;
+
+            ResizeImage(true);
+        }
+
+        /// &lt;summary&gt; 
+        /// Adjust the size of the image according to the coerced scale factor. Optionally 
+        /// center the image, otherwise, try to keep the original midpoint of the pinch 
+        /// in the same spot on the screen regardless of the scale. 
+        /// &lt;/summary&gt; 
+        /// &lt;param name="center"&gt;&lt;/param&gt; 
+        void ResizeImage(bool center)
+        {
+            if (_coercedScale != 0 &amp;&amp; _bitmap != null)
+            {
+                double newWidth = canvas.Width = Math.Round(_bitmap.PixelWidth * _coercedScale);
+                double newHeight = canvas.Height = Math.Round(_bitmap.PixelHeight * _coercedScale);
+
+                xform.ScaleX = xform.ScaleY = _coercedScale;
+
+                viewport.Bounds = new Rect(0, 0, newWidth, newHeight);
+
+                if (center)
+                {
+                    viewport.SetViewportOrigin(
+                        new Point(
+                            Math.Round((newWidth - viewport.ActualWidth) / 2),
+                            Math.Round((newHeight - viewport.ActualHeight) / 2)
+                            ));
+                }
+                else
+                {
+                    Point newImgMid = new Point(newWidth * _relativeMidpoint.X, newHeight * _relativeMidpoint.Y);
+                    Point origin = new Point(newImgMid.X - _screenMidpoint.X, newImgMid.Y - _screenMidpoint.Y);
+                    viewport.SetViewportOrigin(origin);
+                }
+            }
+        }
+
+        /// &lt;summary&gt; 
+        /// Coerce the scale into being within the proper range. Optionally compute the constraints  
+        /// on the scale so that it will always fill the entire screen and will never get too big  
+        /// to be contained in a hardware surface. 
+        /// &lt;/summary&gt; 
+        /// &lt;param name="recompute"&gt;Will recompute the min max scale if true.&lt;/param&gt; 
+        void CoerceScale(bool recompute)
+        {
+            if (recompute &amp;&amp; _bitmap != null &amp;&amp; viewport != null)
+            {
+                // Calculate the minimum scale to fit the viewport 
+                double minX = viewport.ActualWidth / _bitmap.PixelWidth;
+                double minY = viewport.ActualHeight / _bitmap.PixelHeight;
+
+                _minScale = Math.Min(minX, minY);
+            }
+
+            _coercedScale = Math.Min(MaxScale, Math.Max(_scale, _minScale));
+
+        }
+
+        private void OnDoubleTap(object sender, GestureEventArgs e)
+        {
+            e.Handled = true;
+
+            _scale = 0;
+            CoerceScale(true);
+            _scale = _coercedScale;
+
+            ResizeImage(true);
+        }
+    }
+}</pre>
+
+<p>
+	加之之前的圆形图片显示，封装好的一个dll:
+</p>
+
+<p>
+	<a href="http://www.liubaicai.net/wp-content/uploads/2014/03/ImageExtend.zip">ImageExtend</a>
+</p>
+
+<p>
+	使用方法&nbsp;
+</p>
+
+<p>
+	1:添加ImageExtend引用&nbsp;
+</p>
+
+<p>
+	2:xmlns:ImageExtend="clr-namespace:ImageExtend;assembly=ImageExtend"&nbsp;
+</p>
+
+<p>
+	3:&lt;ImageExtend:CircleImage Source="test.jpg" Width="400" Height="400"/&gt;
+</p>
+:ET

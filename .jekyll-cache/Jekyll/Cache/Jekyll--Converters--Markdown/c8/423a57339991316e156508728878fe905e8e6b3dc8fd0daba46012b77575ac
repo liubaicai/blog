@@ -1,0 +1,41 @@
+I"�<p>首先有个wp上的http服务器</p>
+
+<p><a href="http://wphttpserver.codeplex.com/">http://wphttpserver.codeplex.com/</a></p>
+
+<p>使用方式：</p>
+<pre class="lang:c# decode:true ">// create the http server
+// http://www.liubaicai.net/archives/458            
+HttpServer httpServer = new HttpServer("192.168.2.102");
+
+// register an request handler which will handle the posted form data
+httpServer.RegisterRequestHandler(new Regex("/sendSms"), request =&gt;
+{
+    // get the data send as form data
+    FormDataContentProvider formDataProvider = request.Content as FormDataContentProvider;
+
+    // read the data from the form
+    string number = formDataProvider.FormData["number"];
+    string message = formDataProvider.FormData["message"];
+
+    // use the windows phone SMS api to send a SMS
+    SmsComposeTask smsTask = new SmsComposeTask();
+    smsTask.To = number;
+    smsTask.Body = message;
+    smsTask.Show();
+    
+    // tell the client, that everything went fine
+    return new HttpResponse(HttpStatusCode.Ok);
+});
+</pre>
+<p>需要移植到win10uap上来，是很简单的。</p>
+
+<p>我们可以使用这个服务器来做一个本地或者局域网的媒体播放器。</p>
+
+<p>这里说几个需要注意的地方</p>
+
+<p>1.读写媒体文件时，使用StorageFile类的OpenStreamForReadAsync之类的功能，直接将文件流与网络流做转化，而不要使用FileIO中的读写文件方法。</p>
+
+<p>2.响应请求时，务必设置Content-Type才能被客户端播放器识别。根据需要，也可以添加其他Header。</p>
+<pre class="brush:csharp;">response.Headers.Add("Content-Type", "application/octet-stream");</pre>
+<p>3.返回媒体数据时，使用BinaryContextProvider而不是其他ContextProvider。</p>
+:ET

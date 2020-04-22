@@ -1,0 +1,5 @@
+I"�<p>例如安装java8：</p>
+<pre class="ql-syntax" spellcheck="false">brew tap caskroom/versions
+brew cask install java8
+</pre>
+:ET

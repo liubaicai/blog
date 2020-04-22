@@ -1,0 +1,10 @@
+I"�<p>在Chrome浏览器中输入：chrome://net-internals/#hsts <br />
+找到相应的”delete domain security policies”,输入访问有问题的网站域名，然后点击删除（delete） <br />
+之后再重新访问之前的页面，此时网页能够正常打开。 <br />
+报错是HSTS的问题，那么我们尝试清理HSTS的设定，重新获取一下即可。 <br />
+那么什么是HSTS呢：<br />
+HSTS is HTTP Strict Transport Security: a way for sites to elect to always use HTTPS. See https://www.chromium.org/hsts, 是国际互联网工程组织IETF正在推行一种新的Web安全协议，HSTS的作用是强制客户端（如浏览器）使用HTTPS与服务器创建连接。<br />
+采用HSTS协议的网站将保证浏览器始终连接到该网站的HTTPS加密版本，不需要用户手动在URL地址栏中输入加密地址。<br />
+该协议将帮助网站采用全局加密，用户看到的就是该网站的安全版本。<br />
+HSTS的作用是强制客户端（如浏览器）使用HTTPS与服务器创建连接。服务器开启HSTS的方法是，当客户端通过HTTPS发出请求时，在服务器返回的超文本传输协议响应头中包含Strict-Transport-Security字段。非加密传输时设置的HSTS字段无效。</p>
+:ET

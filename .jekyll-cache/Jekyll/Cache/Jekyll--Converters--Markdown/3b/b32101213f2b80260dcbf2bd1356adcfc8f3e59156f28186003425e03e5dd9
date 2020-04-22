@@ -1,0 +1,246 @@
+I"K:<p>文字版，记录和分享一下过程和经历的坑。</p>
+<h2 id="操作系统">操作系统</h2>
+<p>硬件配置 i5-4200U 双核四线程 1.4GHz的弱鸡CPU，4G内存。<br />
+用bootcamp安装了最新版的win10，build 1809。<br />
+控制面板\程序\启用或关闭Window功能，打开“适用与Linux的Windows子系统”,以下简称“WSL”。<br />
+打开自带应用商店，搜索ubuntu，下载安装，当前版本为Ubuntu 18.04.<br />
+打开cmd命令行，输入bash即可进入WSL子系统(以下操作除非特殊说明，均在bash命令行下)。</p>
+<h2 id="安装依赖软件">安装依赖软件</h2>
+<h3 id="php">PHP</h3>
+<p>主要安装php及其扩展</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo add-apt-repository ppa:ondrej/php  
+sudo apt update  
+sudo apt install openssl php7.2-common php7.2-cli php7.2-xml php7.2-mysql php7.2-gd php7.2-imap php7.2-intl php7.2-json php7.2-ldap php-imagick php-ssh2 php7.2-recode php7.2-tidy php7.2-xmlrpc php7.2-mbstring php7.2-curl php-redis php7.2-zip php7.2-sqlite3  
+</code></pre></div></div>
+<h3 id="apache">Apache</h3>
+<p>默认安装和配置就好，默认网站存放位置/var/www/html</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install apache2 libapache2-mod-php7.2
+</code></pre></div></div>
+<h3 id="mariadbmysql亦可">mariadb(mysql亦可)</h3>
+<p>数据库服务，默认配置</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install mariadb-server
+</code></pre></div></div>
+<p>配置root用户密码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql  
+UPDATE mysql.user SET password = PASSWORD('newpassword') WHERE USER = 'root';  
+FLUSH PRIVILEGES;  
+</code></pre></div></div>
+<p>完成后重启数据库</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service mysql restart
+</code></pre></div></div>
+<h3 id="redis">Redis</h3>
+<p>缓存服务，默认配置</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install redis
+</code></pre></div></div>
+<h2 id="nextcloud安装">nextcloud安装</h2>
+<p>安装nextcloud的方式有很多种，都是很简单的。</p>
+<h3 id="一键安装脚本">一键安装脚本</h3>
+<p>官网提供一键安装脚本：<br />
+https://download.nextcloud.com/server/installer/setup-nextcloud.php<br />
+创建文件夹</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir /var/www/nextcloud
+</code></pre></div></div>
+<p>修改权限</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo chown -R www-data:www-data /var/www/nextcloud
+</code></pre></div></div>
+<p>进入文件夹</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /var/www/nextcloud
+</code></pre></div></div>
+<p>下载脚本</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo -u www-data wget https://download.nextcloud.com/server/installer/setup-nextcloud.php
+</code></pre></div></div>
+<p>执行脚本</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo -u www-data php setup-nextcloud.php
+</code></pre></div></div>
+<p>等待下载安装完成，过程中会选择安装路径 按.选择当前(/var/www/nextcloud)即可。<br />
+配置apache主页</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vim /etc/apache2/sites-enabled/000-default.conf
+</code></pre></div></div>
+<p>将其中的DocumentRoot的值改为/var/www/nextcloud<br />
+提醒:vim编辑器，非编辑状态hjkl控制上下左右，i进入编辑状态，esc推出编辑状态，非编辑状态下:wq保存退出，非编辑状态下:q!不保存退出，不了解的同学建议搜索vim相关快捷键和操作。<br />
+配置完成，重启apache</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service apache2 restart
+</code></pre></div></div>
+<p>即可打开localhost，观察结果并进行后续操作。</p>
+<h3 id="snap安装">snap安装</h3>
+<p>该安装方式不需要手动安装依赖软件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo snap install nextcloud
+</code></pre></div></div>
+<p>等待安装结束即可打开localhost，观察结果并进行后续操作。</p>
+<h3 id="其他">其他</h3>
+<p>手动安装和虚拟机安装以及docker方式在此不再赘述。</p>
+<h2 id="nextcloud配置">nextcloud配置</h2>
+<h3 id="安装">安装</h3>
+<p>如果软件包安装顺利，那么这时在win10下打开网页localhost，应该会出现首次运行的配置界面。<br />
+填入用户名密码，数据库选择mysql/mariadb，数据库地址localhost:3306,数据库名nextcloud。<br />
+选择数据存放位置，比如/home/lidemingzi/yunpan，在命令行创建目录并配置该目录权限</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir /home/lidemingzi/yunpan  
+sudo chown -R www-data:www-data  /home/lidemingzi/yunpan  
+sudo chmod -R 0770 /home/lidemingzi/yunpan  
+</code></pre></div></div>
+<p>回到网页，确认安装，等待安装结束就会进入nextcloud云盘界面</p>
+<h3 id="优化">优化</h3>
+<p>进入程序目录，编辑配置文件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /var/www/nextcloud
+sudo vim config/config.php
+</code></pre></div></div>
+<p>在array格式的配置里，加入redis的配置</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'memcache.local' =&gt; '\\OC\\Memcache\\Redis',  
+'redis' =&gt; array (                                       
+    'host' =&gt; 'localhost',                      
+    'port' =&gt; 6379,                             
+),                                            
+'memcache.locking' =&gt; '\\OC\\Memcache\\Redis',
+</code></pre></div></div>
+<p>配置apache，允许路由转发和设置header</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo cp /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/headers.load  
+sudo cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load   
+</code></pre></div></div>
+<p>开发apache配置文件，在VirtualHost内添加配置</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vim /etc/apache2/sites-enabled/000-default.conf
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Directory /var/www/nextcloud&gt;
+    AllowOverride All
+&lt;/Directory&gt;
+</code></pre></div></div>
+<p>编辑/var/www/nextcloud/.user.ini，修改值</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vim /var/www/nextcloud/.user.ini
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>upload_max_filesize=16G
+post_max_size=16G
+memory_limit=513M
+</code></pre></div></div>
+<p>并新增</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>opcache.enable=1
+opcache.enable_cli=1
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=10000
+opcache.memory_consumption=128
+opcache.save_comments=1
+opcache.revalidate_freq=1
+</code></pre></div></div>
+<p>upload_max_filesize和post_max_size是配置上传文件最大限制。
+复制一份到php的配置目录</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo cp .user.ini /etc/php/7.2/apache2/conf.d/user.ini
+</code></pre></div></div>
+<p>重启apache即可</p>
+<h2 id="配置外网访问">配置外网访问</h2>
+<p>此处采用云服务器vps转发的方式
+采用的是frps一款很方便的开源的局域网穿透工具 
+https://github.com/fatedier/frp/releases</p>
+<h3 id="vps服务器端">VPS服务器端</h3>
+<p>下载对应系统的release包并解压，修改frps.ini</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[common]
+bind_port = 7000
+vhost_http_port = 8080
+</code></pre></div></div>
+<p>配置成自启动，以ubuntu为例，新建配置文件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vim /lib/systemd/system/frps.service
+</code></pre></div></div>
+<p>写入以下内容</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Unit]
+Description=frps service
+After=network.target syslog.target
+Wants=network.target
+[Service]
+Type=simple
+#启动服务的命令（此处写你的abc的实际安装目录）
+ExecStart=/your/path/frps -c /your/path/frps.ini
+[Install]
+WantedBy=multi-user.target
+</code></pre></div></div>
+<p>配置完成后，可通过 “你的vps域名:8080” 方式访问你本地的nextcloud，当然也可以配置80端口，或者通过配置nginx等的端口转发功能把子域名的80端口转发到8080上。
+以nginx为例，在配置文件中http节点内添加配置</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    server {
+        listen       80;
+        server_name  cloud.lideyuming.com;
+
+        location / {
+            proxy_pass   http://cloud.lideyuming.com:8080;
+        }
+    }
+</code></pre></div></div>
+<h3 id="本地电脑win10">本地电脑Win10</h3>
+<p>下载windows的release包，解压至合适的目录，修改配置文件frpc.ini,x.x.x.x为你的vps地址或者域名</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># frpc.ini
+[common]
+server_addr = x.x.x.x
+server_port = 7000
+
+[web]
+type = http
+local_port = 80
+custom_domains = www.你要绑定的域名.com
+</code></pre></div></div>
+<p>配置在windows下自启动<br />
+https://github.com/kohsuke/winsw/releases 下载release包解压<br />
+拷贝winsw.exe(可能不叫这个名字)到frpc同目录，新建同名的winsw.xml文件，写入</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;configuration&gt;
+  
+  &lt;!-- ID of the service. It should be unique accross the Windows system--&gt;
+  &lt;id&gt;FRPC&lt;/id&gt;
+  &lt;!-- Display name of the service --&gt;
+  &lt;name&gt;frpc client (powered by WinSW)&lt;/name&gt;
+  &lt;!-- Service description --&gt;
+  &lt;description&gt;内网穿透工具&lt;/description&gt;
+  
+  &lt;!-- Path to the executable, which should be started --&gt;
+  &lt;executable&gt;frpc.exe&lt;/executable&gt;
+  &lt;arguments&gt;-c frpc.ini&lt;/arguments&gt;
+  &lt;logmode&gt;reset&lt;/logmode&gt;
+
+&lt;/configuration&gt;
+</code></pre></div></div>
+<p>打开windows的cmd，进入winsw的所在目录, 运行</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>winsw.exe install
+</code></pre></div></div>
+<p>安装完成后，在任务管理器的服务标签，找到FRPC服务，并启动。</p>
+
+<p>打开防火墙的80和相关端口</p>
+<h3 id="本地电脑wsl">本地电脑WSL</h3>
+<p>修改配置文件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vim /var/www/nextcloud/config/config.php
+</code></pre></div></div>
+<p>在trusted_domains的配置项array中加入你绑定的域名(如果有的话)，重启apache</p>
+<h2 id="数据迁移和备份">数据迁移和备份</h2>
+<h3 id="数据迁移">数据迁移</h3>
+<p>不推荐直接在系统层面对文件进行操作。<br />
+如需将旧文件迁移进来，将文件移动到数据存放位置，比如/home/lidemingzi/yunpan/lidemingzi/files，然后进入安装目录执行nextcloud自带的扫描程序，比如：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /var/www/nextcloud
+sudo -u www-data php occ files:scan --all
+</code></pre></div></div>
+<h3 id="备份">备份</h3>
+<p>nextcloud商店有ftp支持插件，自身也支持webdav访问，在另一台电脑上使用GoodSync等程序定期备份即可。</p>
+<h2 id="一些坑">一些坑</h2>
+<h3 id="自启动">自启动</h3>
+<p>win10的WSL不能跟随系统启动，需要手动添加启动脚本<br />
+新建一个文本文件，改名为wslstartup.bat，里面写入如下内容</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>powershell.exe -WindowStyle Hidden -c "bash /init.sh "
+</code></pre></div></div>
+<p>打开运行，输入shell:startup回车，打开windows启动文件夹，将创建的批处理脚本移动进去<br />
+在WSL命令行下，创建init文件，写入以下内容，123456替换为你的密码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vim /init.sh
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">echo</span> <span class="s2">"123456"</span> | <span class="nb">sudo</span> <span class="nt">-S</span> /usr/sbin/service mysql start
+<span class="nb">echo</span> <span class="s2">"123456"</span> | <span class="nb">sudo</span> <span class="nt">-S</span> /usr/sbin/service apache2 start
+<span class="nb">echo</span> <span class="s2">"123456"</span> | <span class="nb">sudo</span> <span class="nt">-S</span> /usr/sbin/service redis-server start
+</code></pre></div></div>
+<p>配置权限</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo chmod 755 /init.sh
+sudo chown lidemingzi:lidemingzi /init.sh
+</code></pre></div></div>
+<h3 id="挂载的windows盘符的权限问题">挂载的windows盘符的权限问题</h3>
+<p>在WSL中，win10的c盘d盘，自动挂载在了/mnt/c /mnt/d下，但是这些文件和文件夹的权限都是1001并且无法通过chown和chmod更改，因此需要使用drvfsf方法重新挂载</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo umount /mnt/c 
+sudo mount -t drvfs C: /mnt/c -o metadata,uid=1000,gid=1000,umask=22,fmask=11
+</code></pre></div></div>
+<p>为了方便，把如下脚本加入到/init.sh中，WSL启动时就执行</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "123456" | sudo -S /bin/umount /mnt/c
+echo "123456" | sudo -S /bin/umount /mnt/d
+echo "123456" | sudo -S /bin/mount -t drvfs C: /mnt/c -o metadata,uid=1000,gid=1000,umask=22,fmask=11
+echo "123456" | sudo -S /bin/mount -t drvfs P: /mnt/d -o metadata,uid=1001,gid=1001,umask=22,fmask=11
+</code></pre></div></div>
+<h2 id="完成">完成</h2>
+<p>至此，nextcloud的搭建基本完成，nextcloud官网提供桌面和手机客户端，同时有很多插件可供选择，可以使其更好用。</p>
+:ET

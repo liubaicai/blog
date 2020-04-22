@@ -1,0 +1,16 @@
+I"�<p>
+	锁屏后继续运行:
+</p>
+
+<p>
+	PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
+</p>
+
+<p>
+	屏幕常亮
+</p>
+
+<p>
+	PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+</p>
+:ET

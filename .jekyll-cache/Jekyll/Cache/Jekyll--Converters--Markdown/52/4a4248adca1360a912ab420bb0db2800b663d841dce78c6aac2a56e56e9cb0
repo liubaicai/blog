@@ -1,0 +1,9 @@
+I"r<p>先下载nuget,7z等工具到path路径下</p>
+<pre>nuget restore C:\Code\xxoo.sln
+MSBuild C:\Code\xxoo.sln /t:Rebuild /p:Configuration=Release;Platform=x86<br />SET stime=%date:~0,4%%date:~5,2%%date:~8,2%%time:~0,2%%time:~3,2%%time:~6,2%
+SET a=xxoo-
+SET b=.zip
+SET filename=%a%%stime%%b%
+SET ds=Y:\Desktop\
+7z a %ds%%filename% C:\Code\xxoo\BuildOutput\*<br /></pre>
+:ET
