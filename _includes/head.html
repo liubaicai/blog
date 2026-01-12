@@ -10,10 +10,8 @@
     <title>{% if page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}</title>
 
     <style>
-        @font-face {
-            font-family: LXGWWenKai;
-            src: url('/fonts/LXGWWenKai.ttf')
-        }
+        /* Replaced LXGWWenKai with Technical Fonts for Geek/Dev feel */
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
     </style>
 
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
@@ -23,6 +21,9 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ " /css/hux-blog.css" | prepend: site.baseurl }}">
+    
+    <!-- UI/UX Pro Max Optimization -->
+    <link rel="stylesheet" href="{{ "/css/custom.css" | prepend: site.baseurl }}">
 
     <!-- Pygments Github CSS -->
     <link rel="stylesheet" href="{{ " /css/syntax.css" | prepend: site.baseurl }}">

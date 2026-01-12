@@ -1,5 +1,0 @@
-I"ˆ<pre class="ql-syntax" spellcheck="false">brew install telnet&nbsp;
-brew install inetutils&nbsp;
-brew link --overwrite inetutils
-</pre>
-:ET

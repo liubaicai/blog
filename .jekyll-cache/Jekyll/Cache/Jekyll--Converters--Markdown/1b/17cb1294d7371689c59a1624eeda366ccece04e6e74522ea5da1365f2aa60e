@@ -1,5 +1,5 @@
-I"�<p>解决“无效的服务器地址 BasicIPv6ValidationError”</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -listallnetworkservices //列出所有网络服务信息;
+I"�<p>解决“无效的服务器地址 BasicIPv6ValidationError”</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -listallnetworkservices //列出所有网络服务信息;
 networksetup -setv6off "Ethernet 2"  //停止对应网卡的ipV6服务;
 networksetup -setmanual "Ethernet 2" 10.10.22.222 255.255.255.0 10.10.22.1
 </code></pre></div></div>
